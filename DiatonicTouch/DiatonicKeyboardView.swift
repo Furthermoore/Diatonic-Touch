@@ -25,7 +25,8 @@ class DiatonicKeyboardView: UIView {
     
     var scale:[NSNumber] = []
     
-    var noteLabels = [UILabel](count: 8, repeatedValue: UILabel()) // I've noticed... this creates ONLY 1 label, and sets all 8 pointers to the same location in memory...??! Good thing: this is a pointless default value
+    var noteLabels = [UILabel]()
+    var sleekBarViews = [UIView]() //
     
     // start with 8 keys, indexed from left to right across the keyboard
     var keyStatus = [Bool](count:8, repeatedValue: false)   // true would mean the key is currently pressed
@@ -35,6 +36,8 @@ class DiatonicKeyboardView: UIView {
         super.init(frame: frame)
         multipleTouchEnabled = true
         setTranslatesAutoresizingMaskIntoConstraints(false)
+        layer.cornerRadius = 10.0
+        clipsToBounds = true
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -171,38 +174,106 @@ class DiatonicKeyboardView: UIView {
         return keyNum
     }
     
-    func resetScale() {
-        for label in noteLabels {
-            label.removeFromSuperview() // label retain count hits zero .. can observe in Instruments -> Allocations
+    func recreateKeyLabels() {
+        
+        let barWidth:   CGFloat = frame.size.width / CGFloat(octaveRange * scaleSteps + 1)
+        let barHeight:  CGFloat = 2.0
+        var barYOffset: CGFloat = 60.0
+        var labelYOffset: CGFloat = 30.0
+        if UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad {
+            barYOffset = 100.0
+            labelYOffset = 50.0
         }
+        
+        for label in noteLabels {
+            label.removeFromSuperview() // labels' retain count drops to 1
+        }    // We can observe these changes using Applications -> Instruments -> Allocations
+        for sleekBar in sleekBarViews {
+            sleekBar.removeFromSuperview()
+        }
+        noteLabels = [UILabel]() // label's retain count hits 0 
+        sleekBarViews = [UIView]()
+        
         self.scale = MusicTheory.chordScaleForRoot(root, tonality: tonality, steps: scaleSteps, range: octaveRange, octave: octave) as! [NSNumber]
         if scaleSteps*octaveRange+1 < 25 { // less than 25 keys on display? -> give each a note label
-            noteLabels = [UILabel](count:scaleSteps*octaveRange+1, repeatedValue: UILabel(frame: CGRectMake(0.0, 0.0, 45.0, 30.0)))
-            for var i = 0; i < noteLabels.count; i++ {
-                var label = noteLabels[i]
+            for var i = 0; i < scaleSteps*octaveRange+1; i++ {
+                let label = UILabel(frame: CGRectMake(0.0, 0.0, 30.0, 30.0))
+                noteLabels.append(label)
                 label.textAlignment = NSTextAlignment.Center
                 let midiNoteNumber = Int(self.scale[i])
                 label.text = MusicTheory.MIDIStringForNumber(midiNoteNumber)
                 let width = self.frame.size.width / CGFloat(self.scaleSteps*self.octaveRange+1)
-                let point = CGPointMake(CGFloat(i)*width+(width/2.0), 200.0)
-                label.center = CGPointMake(CGFloat(i)*width+(width/2.0), 200.0)
-                label.textColor = UIColor.redColor()
+                label.center = CGPointMake(CGFloat(i)*width+(width/2.0), labelYOffset)
+                
+                let sleekBar = UIView()
+                sleekBarViews.append(sleekBar)
+                sleekBar.setTranslatesAutoresizingMaskIntoConstraints(false)
+                sleekBar.layer.shadowOffset = CGSizeMake(2.0, 2.0)
+                sleekBar.layer.shadowOpacity = 0.8
+                sleekBar.layer.cornerRadius = 10.0
+                
+                if i % scaleSteps == 0 {
+                    label.textColor = UIColor.whiteColor()
+                    sleekBar.backgroundColor = UIColor.whiteColor()
+                    sleekBar.layer.shadowColor = UIColor.whiteColor().CGColor
+                } else {
+                    label.textColor = UIColor.blackColor()
+                    sleekBar.backgroundColor = UIColor.blackColor()
+                    sleekBar.layer.shadowColor = UIColor.blackColor().CGColor
+                }
+                
                 addSubview(label)
+                addSubview(sleekBar)
+                
+                let barXOffset: CGFloat = barWidth * CGFloat(i)
+                
+                addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-barXOffset-[sleekBar(barWidth)]", options: NSLayoutFormatOptions(0), metrics: ["barXOffset":barXOffset, "barWidth":barWidth], views: ["sleekBar":sleekBar]))
+                addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-barYOffset-[sleekBar(barHeight)]", options: NSLayoutFormatOptions(0), metrics: ["barYOffset":barYOffset, "barHeight":barHeight], views: ["sleekBar":sleekBar]))
+                
+//                bringSubviewToFront(label)
+//                bringSubviewToFront(sleekBar)
             }
+            
         } else { // only black keys are labeled with pitch
-            noteLabels = [UILabel](count: octaveRange+1, repeatedValue: UILabel(frame: CGRectMake(0.0, 0.0, 45.0, 30.0)))
-            for var i = 0; i < noteLabels.count; i++ {
-                let label = noteLabels[i]
+            for var i = 0; i < octaveRange+1; i++ {
+                let label = UILabel(frame: CGRectMake(0.0, 0.0, 30.0, 30.0))
+                noteLabels.append(label)
                 label.textAlignment = NSTextAlignment.Center
                 let midiNoteNumber = Int(self.scale[i])
                 label.text = MusicTheory.MIDIStringForNumber(midiNoteNumber)
                 let width = self.frame.size.width / CGFloat(self.scaleSteps*self.octaveRange+1)
-                label.center = CGPointMake(CGFloat(i)*width+(width/2.0), 200.0)
-                label.textColor = UIColor.redColor()
+                label.center = CGPointMake(CGFloat(i)*width+(width/2.0), labelYOffset)
+                
+                
+                let sleekBar = UIView()
+                sleekBarViews.append(sleekBar)
+                sleekBar.setTranslatesAutoresizingMaskIntoConstraints(false)
+                sleekBar.layer.shadowOffset = CGSizeMake(2.0, 2.0)
+                sleekBar.layer.shadowOpacity = 0.8
+                sleekBar.layer.cornerRadius = 10.0
+                
+                if i % scaleSteps == 0 {
+                    label.textColor = UIColor.whiteColor()
+                    sleekBar.backgroundColor = UIColor.whiteColor()
+                    sleekBar.layer.shadowColor = UIColor.whiteColor().CGColor
+                } else {
+                    label.textColor = UIColor.blackColor()
+                    sleekBar.backgroundColor = UIColor.blackColor()
+                    sleekBar.layer.shadowColor = UIColor.blackColor().CGColor
+                }
                 addSubview(label)
+                addSubview(sleekBar)
+                
+                let barXOffset: CGFloat = barWidth * CGFloat(i)
+                
+                addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-barXOffset-[sleekBar(barWidth)]", options: NSLayoutFormatOptions(0), metrics: ["barXOffset":barXOffset, "barWidth":barWidth], views: ["sleekBar":sleekBar]))
+                addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-barYOffset-[sleekBar(barHeight)]", options: NSLayoutFormatOptions(0), metrics: ["barYOffset":barYOffset, "barHeight":barHeight], views: ["sleekBar":sleekBar]))
+                
+                
+//                bringSubviewToFront(label)
+//                bringSubviewToFront(sleekBar)
             }
         }
         keyStatus = [Bool](count: scaleSteps*octaveRange+1, repeatedValue: false)
     }
-
 }

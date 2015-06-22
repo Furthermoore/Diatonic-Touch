@@ -12,7 +12,7 @@ class InstrumentViewController: UIViewController {
     
     let diatonicKeyboard = DiatonicKeyboardView(frame: CGRectZero)
 
-    let autolayoutMetrics = ["controlPanelHeight":55.0]
+    let autolayoutMetrics = ["controlPanelHeight":150.0]
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +23,9 @@ class InstrumentViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        // now that the frame for the DiatonicKeyboard has been established,
-        // we can place labels and create the first scale
-        diatonicKeyboard.resetScale()
+        // At this point, the DiatonicKeyboard can access it's frame
+        
+        diatonicKeyboard.recreateKeyLabels()
     }
     
     func createControlPanel() {
