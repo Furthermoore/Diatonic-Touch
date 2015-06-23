@@ -29,6 +29,6 @@
 
 @interface CsoundSliderBinding : NSObject<CsoundBinding> 
 
--(instancetype)initSlider:(UISlider *)slider channelName:(NSString *)channelName;
+-(instancetype)initSlider:(UISlider *)slider channelName:(NSString *)channelName isContinuous:(BOOL)cont;
 
 @end

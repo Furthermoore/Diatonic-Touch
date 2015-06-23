@@ -62,7 +62,6 @@ void InterruptionListener(void *inClientData, UInt32 inInterruption);
     _useAudioInput = NO;
       [self setMessageCallback:@selector(messageCallback:) withListener:self];
   }
-    
   return self;
 }
 

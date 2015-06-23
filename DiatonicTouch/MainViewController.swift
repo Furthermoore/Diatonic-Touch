@@ -52,6 +52,15 @@ class MainViewController: UIViewController {
         // The DiatonicKeyboardViewController will post these notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showPresetList", name: "showPresetList", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showAbout", name: "showAbout", object: nil)
+        
+        ValueIndicator.sharedInstance.indicatorLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view.addSubview(ValueIndicator.sharedInstance.indicatorLabel)
+        let views = ["indicator":ValueIndicator.sharedInstance.indicatorLabel]
+        let metrics = ["indicatorWidth": 250.0, "indicatorHeight":200.0]
+        view.addConstraint(NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: ValueIndicator.sharedInstance.indicatorLabel, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0.0))
+        view.addConstraint(NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: ValueIndicator.sharedInstance.indicatorLabel, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0.0))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[indicator(indicatorWidth)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[indicator(indicatorHeight)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
     }
 
     override func didReceiveMemoryWarning() {

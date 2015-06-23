@@ -32,22 +32,29 @@
 
 @property (nonatomic, strong) NSString *channelName;
 @property (nonatomic, strong) UISlider *slider;
+@property (nonatomic, assign) BOOL cont;
 
 @end
 
 @implementation CsoundSliderBinding
 
--(instancetype)initSlider:(UISlider *)slider channelName:(NSString *)channelName
+-(instancetype)initSlider:(UISlider *)slider channelName:(NSString *)channelName isContinuous:(BOOL)cont
 {
     if (self = [super init]) {
         self.slider = slider;
         self.channelName = channelName;
+        self.cont = cont;
     }
     return self;
 }
 
 -(void)updateChannelValue:(id)sender {
-    channelValue = ((UISlider *)sender).value;
+    UISlider *slider = (UISlider*)sender;
+    if (!self.cont) {
+        slider.value = (int)slider.value;
+        [slider setNeedsDisplay];
+    }
+    channelValue = slider.value;
 }
 
 -(void)setup:(CsoundObj *)csoundObj

@@ -26,7 +26,7 @@ class DiatonicKeyboardView: UIView {
     var scale:[NSNumber] = []
     
     var noteLabels = [UILabel]()
-    var sleekBarViews = [UIView]() //
+    var sleekBarViews = [UIView]()
     
     // start with 8 keys, indexed from left to right across the keyboard
     var keyStatus = [Bool](count:8, repeatedValue: false)   // true would mean the key is currently pressed
@@ -128,7 +128,6 @@ class DiatonicKeyboardView: UIView {
         let totalNumKeys = octaveRange * scaleSteps + 1
         var currentKeyState = [Bool](count: totalNumKeys, repeatedValue: false)
         var currentKeyAmp = [Float](count:totalNumKeys, repeatedValue:0.0)
-        var currentKeyDur = [Float](count:totalNumKeys, repeatedValue:0.0)
         
         for var i = 0; i < count; i++ {
             let touch = touches[i] as! UITouch
@@ -137,7 +136,6 @@ class DiatonicKeyboardView: UIView {
             if index != -1 {
                 currentKeyState[index] = true
                 currentKeyAmp[index] = getKeyDownAmplitude(point)
-                currentKeyDur[index] = getKeyDownDuration(forPoint: point, andKey: index)
             }
         }
         
@@ -148,7 +146,7 @@ class DiatonicKeyboardView: UIView {
                 keysUpdated = true
                 keyStatus[i] = currentKeyState[i]
                 if currentKeyState[i] {
-                    let params: [String:AnyObject] = ["NoteNum":Int(self.scale[i]), "NoteAmp":currentKeyAmp[i], "MinimumDuration":currentKeyDur[i]]
+                    let params: [String:AnyObject] = ["NoteNum":Int(self.scale[i]), "NoteAmp":currentKeyAmp[i]]
                     self.delegate?.keyPressed(self, params: params)
                 } else {
                     let params: [String:AnyObject] = ["NoteNum":Int(self.scale[i])]
@@ -180,14 +178,6 @@ class DiatonicKeyboardView: UIView {
     
     func getKeyDownAmplitude(point: CGPoint) -> Float {
         return Float((self.frame.size.height - point.y) / self.frame.size.height)
-    }
-    
-    func getKeyDownDuration(forPoint point: CGPoint, andKey key: Int) -> Float {
-        let keyWidth: CGFloat = self.frame.size.width / CGFloat(octaveRange * scaleSteps + 1)
-        let keyNum = CGFloat(key)
-        let result = Float((((keyWidth * keyNum) + keyWidth) - point.x) / keyWidth) * 5.0
-        println(result)
-        return result
     }
     
     func recreateKeyLabels() {
