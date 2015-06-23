@@ -60,10 +60,25 @@ void InterruptionListener(void *inClientData, UInt32 inInterruption);
     listeners = [[NSMutableArray alloc] init];
     _midiInEnabled = NO;
     _useAudioInput = NO;
+      [self setMessageCallback:@selector(messageCallback:) withListener:self];
   }
     
   return self;
 }
+
+- (void)messageCallback:(NSValue *)infoObj
+{
+    @autoreleasepool {
+        
+        Message info;
+        [infoObj getValue:&info];
+        char message[1024];
+        vsnprintf(message, 1024, info.format, info.valist);
+        NSString *messageStr = [NSString stringWithFormat:@"%s", message];
+        NSLog(@"%@", messageStr);
+    }
+}
+
 
 // -----------------------------------------------------------------------------
 #  pragma mark - CsoundObj Interface

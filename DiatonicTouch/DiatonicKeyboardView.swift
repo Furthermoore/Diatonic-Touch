@@ -9,8 +9,8 @@
 import UIKit
 
 protocol DiatonicKeyboardViewDelegate {
-    func keyPressed(keyboard:DiatonicKeyboardView, noteNum:Int)
-    func keyReleased(keyboard:DiatonicKeyboardView, noteNum:Int)
+    func keyPressed(keyboard:DiatonicKeyboardView, params:[String:AnyObject])
+    func keyReleased(keyboard:DiatonicKeyboardView, params:[String:AnyObject])
 }
 
 class DiatonicKeyboardView: UIView {
@@ -127,6 +127,8 @@ class DiatonicKeyboardView: UIView {
         let count = touches.count
         let totalNumKeys = octaveRange * scaleSteps + 1
         var currentKeyState = [Bool](count: totalNumKeys, repeatedValue: false)
+        var currentKeyAmp = [Float](count:totalNumKeys, repeatedValue:0.0)
+        var currentKeyDur = [Float](count:totalNumKeys, repeatedValue:0.0)
         
         for var i = 0; i < count; i++ {
             let touch = touches[i] as! UITouch
@@ -134,6 +136,8 @@ class DiatonicKeyboardView: UIView {
             let index = self.getKeyboardKey(point)
             if index != -1 {
                 currentKeyState[index] = true
+                currentKeyAmp[index] = getKeyDownAmplitude(point)
+                currentKeyDur[index] = getKeyDownDuration(forPoint: point, andKey: index)
             }
         }
         
@@ -144,9 +148,11 @@ class DiatonicKeyboardView: UIView {
                 keysUpdated = true
                 keyStatus[i] = currentKeyState[i]
                 if currentKeyState[i] {
-                    self.delegate?.keyPressed(self, noteNum: Int(self.scale[i]))
+                    let params: [String:AnyObject] = ["NoteNum":Int(self.scale[i]), "NoteAmp":currentKeyAmp[i], "MinimumDuration":currentKeyDur[i]]
+                    self.delegate?.keyPressed(self, params: params)
                 } else {
-                    self.delegate?.keyPressed(self, noteNum: Int(self.scale[i]))
+                    let params: [String:AnyObject] = ["NoteNum":Int(self.scale[i])]
+                    self.delegate?.keyReleased(self, params: params)
                 }
             }
         }
@@ -170,6 +176,18 @@ class DiatonicKeyboardView: UIView {
             }
         }
         return keyNum
+    }
+    
+    func getKeyDownAmplitude(point: CGPoint) -> Float {
+        return Float((self.frame.size.height - point.y) / self.frame.size.height)
+    }
+    
+    func getKeyDownDuration(forPoint point: CGPoint, andKey key: Int) -> Float {
+        let keyWidth: CGFloat = self.frame.size.width / CGFloat(octaveRange * scaleSteps + 1)
+        let keyNum = CGFloat(key)
+        let result = Float((((keyWidth * keyNum) + keyWidth) - point.x) / keyWidth) * 5.0
+        println(result)
+        return result
     }
     
     func recreateKeyLabels() {

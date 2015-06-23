@@ -19,9 +19,9 @@ gaR init 0
 
 massign 0, 1
 
-turnon 2
-turnon 3
-turnon 4
+;turnon 2
+;turnon 3
+;turnon 4
 
 ; ***************************
 ; GLOBAL TABLES
@@ -341,61 +341,66 @@ xout afxL, afxR
 
 midinoteonkey p4, p5 
 inotenum = p4
-iamp = 0.7 ; TODO velocity input from keyboard
+iamp = p5 * 0.3 ; TODO velocity input from keyboard
 
 ; OSC 1 PITCH
 kdetune init 0
 ksemi   init 0
-kdetune chnget "detune"
-ksemi   chnget "semi"
+;kdetune chnget "detune"
+;ksemi   chnget "semi"
 kfreq   = cpsmidinn(inotenum+ksemi)
 kdet    = cpsmidinn(inotenum+ksemi+kdetune)
 
 ; OSC 2 PITCH
 kdetune2 init 0
 ksemi2   init 0
-kdetune2 chnget "detune2"
-ksemi2   chnget "semi2"
+;kdetune2 chnget "detune2"
+;ksemi2   chnget "semi2"
 kfreq2   = cpsmidinn(inotenum+ksemi2)
 kdet2    = cpsmidinn(inotenum+ksemi2+kdetune2)
 
 ; AMPLITUDE ENVELOPE
-iatt chnget "attack"
-idec chnget "decay"
-isus chnget "sustain"
-irel chnget "release"
+iatt = 0.02
+idec = 0.02
+isus = p5 * 0.75
+irel = 0.0
+;iatt chnget "attack"
+;idec chnget "decay"
+;isus chnget "sustain"
+;irel chnget "release"
 kadsr linsegr 0, iatt, 1, idec, isus, irel, 0
 
 ; OSC 1 DRIVE 
 kmod init 0
-kmod chnget "drive"
+;kmod chnget "drive"
 kdrive portk kmod, 0.01
 
 ; OSC 2 DRIVE
 kmod2 init 0
-kmod2 chnget "drive2"
+;kmod2 chnget "drive2"
 kdrive2 portk kmod2, 0.01
 
 ; OSC 1 & 2 SOURCE
 kselect  init 0
 kselect2 init 0
-kselect chnget "waves"
-kselect2 chnget "waves2"
+;kselect chnget "waves"
+;kselect2 chnget "waves2"
 
 ; LFO
 klefosel init 0
 kamplfo init 0
 kcpslfo init 0
-klefosel chnget "lfosel"
-kamplfo chnget "amplfo"
-kcpslfo chnget "cpslfo"
+;klefosel chnget "lfosel"
+;kamplfo chnget "amplfo"
+;kcpslfo chnget "cpslfo"
 
 ; SUB OSC
 kselsub init 0
 klevelsubx init 0
-kselsub chnget "sub"
-klevelsubx chnget "levelsub"
-klevelsub portk klevelsubx, 0.01
+klevelsub init 0
+;kselsub chnget "sub"
+;klevelsubx chnget "levelsub"
+;klevelsub portk klevelsubx, 0.01
 
 
 if klefosel == 0 then
@@ -923,13 +928,17 @@ asum1b = aout1b
 asum2b = aout2b
 
 ; MIXER OSC1 OSC2 SUB-OSC
-kspread chnget "spread"
-gkspread portk kspread,.010
+kspread init 0.6
+gkspread init 0.6
+;kspread chnget "spread"
+;gkspread portk kspread,.010
 aoutL = ((asum1 * gkspread) + (asum2 * (1 - gkspread))) * 0.5
 aoutR = ((asum1 * (1 - gkspread)) + (asum2 * gkspread)) * 0.5
 
-kspread2 chnget "spread2"
-gkspread2 portk kspread2, 0.010
+kspread2 init 0.6
+gkspread2 init 0.6
+;kspread2 chnget "spread2"
+;gkspread2 portk kspread2, 0.010
 aoutLb = ((asum1b * gkspread2) + (asum2b * (1 - gkspread2))) * 0.5
 aoutRb = ((asum1b * (1 - gkspread2)) + (asum2b * gkspread2)) * 0.5
 
@@ -939,9 +948,12 @@ amaster3 = aoutLb
 amaster4 = aoutRb
 
 ; MIXER COMBINATIONS
-kcombi chnget "combinations"
-kmorphing chnget "morph"
-kdrywet portk kmorphing, 0.01
+kcombi init 2
+;kcombi chnget "combinations"
+kmorphing init 0.3
+kdrywet init 0.3
+;kmorphing chnget "morph"
+;kdrywet portk kmorphing, 0.01
 
 if kcombi == 0 then
     asnd1 = amaster1
@@ -961,24 +973,38 @@ elseif kcombi == 4 then
 endif
 
 ; FILTERS SECTION
-gkattfl chnget "attfl"
-gkdecfl chnget "decfl"
-gksusfl chnget "susfl"
-gkrelfl chnget "relfl"
+gkattfl init 0.1
+gkdecfl init 0.1
+gksusfl init p5*0.75
+gkrelfl init 0.10
+;gkattfl chnget "attfl"
+;gkdecfl chnget "decfl"
+;gksusfl chnget "susfl"
+;gkrelfl chnget "relfl"
 
-kselfilter chnget "selfltrs"
-kcutoffx chnget "cutoff"
-khighpassx chnget "highpass"
-kresox chnget "reso"
-kmorphfilter chnget "mrphfltr"
+kselfilter init 0
+;kselfilter chnget "selfltrs"
 
-kamplfofl chnget "amplfofl"
-kcpslfofl chnget "cpslfofl"
-itypefl chnget "lfotypefl"
+;kcutoffx chnget "cutoff"
+;khighpassx chnget "highpass"
+;kresox chnget "reso"
+kmorphfilter init 0.0
+;kmorphfilter chnget "mrphfltr"
 
-kcutoff tonek kcutoffx, 10
-kreso tonek kresox, 10
-khighpass tonek khighpassx, 10
+kamplfofl init 0.0
+kcpslfofl init 0.0
+itypefl init 0
+;kamplfofl chnget "amplfofl"
+;kcpslfofl chnget "cpslfofl"
+;itypefl chnget "lfotypefl"
+
+kcutoff init 18000.0
+kreso init 0.65
+khighpass init 2000.0
+
+;kcutoff tonek kcutoffx, 10
+;kreso tonek kresox, 10
+;khighpass tonek khighpassx, 10
 
 ; LFO FILTER
 klfofilter lfo kamplfofl, kcpslfofl, itypefl
@@ -1019,11 +1045,12 @@ aclipoutR clip afiltALL2, 0, 0dbfs
 
 outs aclipoutL*kadsr, aclipoutR*kadsr
 
+/*
 gaL = aclipoutL * kadsr
 gaR = aclipoutR * kadsr
-
+*/
     endin
-
+/*
     instr 2 ; MULTIFX
 
 ktoggle chnget "FX"
@@ -1120,6 +1147,8 @@ gaL = 0
 gaR = 0
 
     endin
+
+*/
 
 </CsInstruments>
 <CsScore>

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InstrumentViewController: UIViewController, CsoundObjListener {
+class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKeyboardViewDelegate {
     
     let diatonicKeyboard = DiatonicKeyboardView(frame: CGRectZero)
     
@@ -79,6 +79,7 @@ class InstrumentViewController: UIViewController, CsoundObjListener {
     }
     
     func createKeyboard() {
+        diatonicKeyboard.delegate = self
         view.addSubview(diatonicKeyboard)
         let views = ["diatonicKeyboard":diatonicKeyboard]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-controlPanelHeight-[diatonicKeyboard]|", options: NSLayoutFormatOptions(0), metrics: autolayoutMetrics, views: views))
@@ -104,4 +105,16 @@ class InstrumentViewController: UIViewController, CsoundObjListener {
         println("csound started")
     }
     
+    // MARK : DiatonicKeyboardViewDelegate
+    func keyPressed(keyboard: DiatonicKeyboardView, params: [String:AnyObject]) {
+        let noteNum: Int = params["NoteNum"] as! Int
+        let noteAmp: Float = params["NoteAmp"] as! Float
+        let noteDur: Float = params["MinimumDuration"] as! Float
+        let scoreMessage = String(format: "i1.%003d 0 -2 %d %f %f", arguments: [noteNum, noteNum, noteAmp, noteDur])
+        csound.sendScore(scoreMessage)
+    }
+    
+    func keyReleased(keyboard: DiatonicKeyboardView, params: [String:AnyObject]) {
+        let scoreMessage = String(format: "i-1.%003d 0 0", arguments: [params["NoteNum"] as! Int])
+    }
 }
