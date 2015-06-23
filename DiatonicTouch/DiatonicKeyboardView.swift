@@ -9,8 +9,8 @@
 import UIKit
 
 protocol DiatonicKeyboardViewDelegate {
-    func keyPressed(keyboard:DiatonicKeyboardView, noteNum:Int)
-    func keyReleased(keyboard:DiatonicKeyboardView, noteNum:Int)
+    func keyPressed(keyboard:DiatonicKeyboardView, params:[String:AnyObject])
+    func keyReleased(keyboard:DiatonicKeyboardView, params:[String:AnyObject])
 }
 
 class DiatonicKeyboardView: UIView {
@@ -26,7 +26,7 @@ class DiatonicKeyboardView: UIView {
     var scale:[NSNumber] = []
     
     var noteLabels = [UILabel]()
-    var sleekBarViews = [UIView]() //
+    var sleekBarViews = [UIView]()
     
     // start with 8 keys, indexed from left to right across the keyboard
     var keyStatus = [Bool](count:8, repeatedValue: false)   // true would mean the key is currently pressed
@@ -127,6 +127,7 @@ class DiatonicKeyboardView: UIView {
         let count = touches.count
         let totalNumKeys = octaveRange * scaleSteps + 1
         var currentKeyState = [Bool](count: totalNumKeys, repeatedValue: false)
+        var currentKeyAmp = [Float](count:totalNumKeys, repeatedValue:0.0)
         
         for var i = 0; i < count; i++ {
             let touch = touches[i] as! UITouch
@@ -134,6 +135,7 @@ class DiatonicKeyboardView: UIView {
             let index = self.getKeyboardKey(point)
             if index != -1 {
                 currentKeyState[index] = true
+                currentKeyAmp[index] = getKeyDownAmplitude(point)
             }
         }
         
@@ -144,9 +146,11 @@ class DiatonicKeyboardView: UIView {
                 keysUpdated = true
                 keyStatus[i] = currentKeyState[i]
                 if currentKeyState[i] {
-                    self.delegate?.keyPressed(self, noteNum: Int(self.scale[i]))
+                    let params: [String:AnyObject] = ["NoteNum":Int(self.scale[i]), "NoteAmp":currentKeyAmp[i]]
+                    self.delegate?.keyPressed(self, params: params)
                 } else {
-                    self.delegate?.keyPressed(self, noteNum: Int(self.scale[i]))
+                    let params: [String:AnyObject] = ["NoteNum":Int(self.scale[i])]
+                    self.delegate?.keyReleased(self, params: params)
                 }
             }
         }
@@ -170,6 +174,10 @@ class DiatonicKeyboardView: UIView {
             }
         }
         return keyNum
+    }
+    
+    func getKeyDownAmplitude(point: CGPoint) -> Float {
+        return Float((self.frame.size.height - point.y) / self.frame.size.height)
     }
     
     func recreateKeyLabels() {

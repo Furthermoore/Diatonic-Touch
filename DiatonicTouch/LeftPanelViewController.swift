@@ -71,7 +71,7 @@ class LeftPanelViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         let metrics = ["pickerViewWidth":view.frame.size.width]
         
         contentView1.addConstraint(NSLayoutConstraint(item: contentView1, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: scaleStepsPickerView, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0.0))
-        contentView1.addConstraint(NSLayoutConstraint(item: contentView1, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: scaleStepsPickerView, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0.0))
+        contentView1.addConstraint(NSLayoutConstraint(item: contentView1, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: scaleStepsPickerView, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 40.0))
         contentView1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[scaleStepsLabel]-[scaleStepsPickerView]", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: views))
         contentView1.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[scaleStepsPickerView(pickerViewWidth)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
         
@@ -97,7 +97,7 @@ class LeftPanelViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         let views = ["octavesControl":octavesControl, "octavesLabel":octavesLabel]
         
         contentView2.addConstraint(NSLayoutConstraint(item: contentView2, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: octavesControl, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0.0))
-        contentView2.addConstraint(NSLayoutConstraint(item: contentView2, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: octavesControl, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0.0))
+        contentView2.addConstraint(NSLayoutConstraint(item: contentView2, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: octavesControl, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 40.0))
         contentView2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[octavesLabel]-[octavesControl]", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: views))
         contentView2.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-[octavesControl]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
         
@@ -128,7 +128,7 @@ class LeftPanelViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         let metrics = ["pickerWidth":view.frame.size.width, "pickerHeight":30.0]
         
         contentView3.addConstraint(NSLayoutConstraint(item: contentView3, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: keyCenterPickerView, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0.0))
-        contentView3.addConstraint(NSLayoutConstraint(item: contentView3, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: keyCenterPickerView, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0.0))
+        contentView3.addConstraint(NSLayoutConstraint(item: contentView3, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: keyCenterPickerView, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 40.0))
         contentView3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[keyCenterLabel]-[keyCenterPickerView]", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: views))
         contentView3.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[keyCenterPickerView(pickerWidth)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
 
@@ -140,7 +140,7 @@ class LeftPanelViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         
         let octaveLabel = UILabel()
         octaveLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        octaveLabel.text = "Octave"
+        octaveLabel.text = "Starting Octave"
         octaveLabel.textAlignment = NSTextAlignment.Center
         contentView4.addSubview(octaveLabel)
         
@@ -165,7 +165,7 @@ class LeftPanelViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         let metrics = ["pickerWidth":view.frame.size.width, "pickerHeight":30.0]
         
         contentView4.addConstraint(NSLayoutConstraint(item: contentView4, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: octavePickerView, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0.0))
-        contentView4.addConstraint(NSLayoutConstraint(item: contentView4, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: octavePickerView, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0.0))
+        contentView4.addConstraint(NSLayoutConstraint(item: contentView4, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: octavePickerView, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 40.0))
         contentView4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[octaveLabel]-[octavePickerView]-[octaveInfoLabel]", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: views))
         contentView4.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[octavePickerView(pickerWidth)]", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
         
@@ -191,7 +191,7 @@ class LeftPanelViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         let views = ["tonalityControl":tonalityControl, "tonalityLabel":tonalityLabel]
         
         contentView5.addConstraint(NSLayoutConstraint(item: contentView5, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: tonalityControl, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0.0))
-        contentView5.addConstraint(NSLayoutConstraint(item: contentView5, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: tonalityControl, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0.0))
+        contentView5.addConstraint(NSLayoutConstraint(item: contentView5, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: tonalityControl, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 40.0))
         contentView5.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[tonalityLabel]-[tonalityControl]", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: views))
         contentView5.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-[tonalityControl]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
         
