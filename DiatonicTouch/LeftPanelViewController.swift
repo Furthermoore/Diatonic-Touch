@@ -140,7 +140,7 @@ class LeftPanelViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         
         let octaveLabel = UILabel()
         octaveLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        octaveLabel.text = "Octave"
+        octaveLabel.text = "Starting Octave"
         octaveLabel.textAlignment = NSTextAlignment.Center
         contentView4.addSubview(octaveLabel)
         

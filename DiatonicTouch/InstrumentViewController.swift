@@ -8,9 +8,11 @@
 
 import UIKit
 
-class InstrumentViewController: UIViewController {
+class InstrumentViewController: UIViewController, CsoundObjListener {
     
     let diatonicKeyboard = DiatonicKeyboardView(frame: CGRectZero)
+    
+    let csound = CsoundObj()
 
     let autolayoutMetrics = ["controlPanelHeight":150.0]
     
@@ -19,6 +21,9 @@ class InstrumentViewController: UIViewController {
         
         createControlPanel()
         createKeyboard()
+        
+        csound.addListener(self)
+        csound.play(NSBundle.mainBundle().pathForResource("Hidrae", ofType: "csd"))
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -71,7 +76,6 @@ class InstrumentViewController: UIViewController {
         menuBar.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[settingsButton(100)]-[titleLabel]-[aboutButton(100)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: views))
         menuBar.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-20-[settingsButton]", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
         
-        
     }
     
     func createKeyboard() {
@@ -88,6 +92,16 @@ class InstrumentViewController: UIViewController {
     
     func presentRightPanel() {
         NSNotificationCenter.defaultCenter().postNotificationName("showAbout", object: nil)
+    }
+    
+    // MARK: CsoundObjListener
+    
+    func csoundObjCompleted(csoundObj: CsoundObj!) {
+        println("csound complete")
+    }
+    
+    func csoundObjStarted(csoundObj: CsoundObj!) {
+        println("csound started")
     }
     
 }
