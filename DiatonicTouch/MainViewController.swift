@@ -23,6 +23,7 @@ class MainViewController: UIViewController {
     // 2. User may or may not require left and right panels..
     lazy var leftPanelVC:LeftPanelViewController = {
         var leftPanel = LeftPanelViewController()
+        leftPanel.diatonicKeyboard = self.centerVC.diatonicKeyboard
         self.view.addSubview(leftPanel.view)
         self.addChildViewController(leftPanel)
         leftPanel.didMoveToParentViewController(self)

@@ -36,8 +36,6 @@ class DiatonicKeyboardView: UIView {
         super.init(frame: frame)
         multipleTouchEnabled = true
         setTranslatesAutoresizingMaskIntoConstraints(false)
-        layer.cornerRadius = 10.0
-        clipsToBounds = true
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -197,7 +195,7 @@ class DiatonicKeyboardView: UIView {
         self.scale = MusicTheory.chordScaleForRoot(root, tonality: tonality, steps: scaleSteps, range: octaveRange, octave: octave) as! [NSNumber]
         if scaleSteps*octaveRange+1 < 25 { // less than 25 keys on display? -> give each a note label
             for var i = 0; i < scaleSteps*octaveRange+1; i++ {
-                let label = UILabel(frame: CGRectMake(0.0, 0.0, 30.0, 30.0))
+                let label = UILabel(frame: CGRectMake(0.0, 0.0, 40.0, 30.0))
                 noteLabels.append(label)
                 label.textAlignment = NSTextAlignment.Center
                 let midiNoteNumber = Int(self.scale[i])
@@ -229,14 +227,10 @@ class DiatonicKeyboardView: UIView {
                 
                 addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-barXOffset-[sleekBar(barWidth)]", options: NSLayoutFormatOptions(0), metrics: ["barXOffset":barXOffset, "barWidth":barWidth], views: ["sleekBar":sleekBar]))
                 addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-barYOffset-[sleekBar(barHeight)]", options: NSLayoutFormatOptions(0), metrics: ["barYOffset":barYOffset, "barHeight":barHeight], views: ["sleekBar":sleekBar]))
-                
-//                bringSubviewToFront(label)
-//                bringSubviewToFront(sleekBar)
             }
-            
         } else { // only black keys are labeled with pitch
             for var i = 0; i < octaveRange+1; i++ {
-                let label = UILabel(frame: CGRectMake(0.0, 0.0, 30.0, 30.0))
+                let label = UILabel(frame: CGRectMake(0.0, 0.0, 40.0, 30.0))
                 noteLabels.append(label)
                 label.textAlignment = NSTextAlignment.Center
                 let midiNoteNumber = Int(self.scale[i])
@@ -268,12 +262,9 @@ class DiatonicKeyboardView: UIView {
                 
                 addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-barXOffset-[sleekBar(barWidth)]", options: NSLayoutFormatOptions(0), metrics: ["barXOffset":barXOffset, "barWidth":barWidth], views: ["sleekBar":sleekBar]))
                 addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-barYOffset-[sleekBar(barHeight)]", options: NSLayoutFormatOptions(0), metrics: ["barYOffset":barYOffset, "barHeight":barHeight], views: ["sleekBar":sleekBar]))
-                
-                
-//                bringSubviewToFront(label)
-//                bringSubviewToFront(sleekBar)
             }
         }
         keyStatus = [Bool](count: scaleSteps*octaveRange+1, repeatedValue: false)
+        setNeedsDisplay()
     }
 }

@@ -13,7 +13,7 @@ class InstrumentViewController: UIViewController {
     let diatonicKeyboard = DiatonicKeyboardView(frame: CGRectZero)
 
     let autolayoutMetrics = ["controlPanelHeight":150.0]
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +61,7 @@ class InstrumentViewController: UIViewController {
         menuBar.addSubview(aboutButton)
         menuBar.addSubview(titleLabel)
         self.view.addSubview(menuBar)
+        
 
         // Autolayout constraints
         let views = ["menuBar":menuBar, "settingsButton":settingsButton, "aboutButton":aboutButton, "titleLabel":titleLabel]
@@ -69,6 +70,8 @@ class InstrumentViewController: UIViewController {
         self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[menuBar]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
         menuBar.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[settingsButton(100)]-[titleLabel]-[aboutButton(100)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: views))
         menuBar.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-20-[settingsButton]", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        
+        
     }
     
     func createKeyboard() {
@@ -86,4 +89,5 @@ class InstrumentViewController: UIViewController {
     func presentRightPanel() {
         NSNotificationCenter.defaultCenter().postNotificationName("showAbout", object: nil)
     }
+    
 }

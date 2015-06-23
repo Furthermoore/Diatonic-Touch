@@ -17,6 +17,7 @@
 		37B14D9E1B2B31F600E9E1E8 /* RightPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B14D9D1B2B31F600E9E1E8 /* RightPanelViewController.swift */; };
 		37B14DA01B2B37D000E9E1E8 /* DiatonicKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B14D9F1B2B37D000E9E1E8 /* DiatonicKeyboardView.swift */; };
 		37B14DA41B2B70EE00E9E1E8 /* MusicTheory.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B14DA31B2B70EE00E9E1E8 /* MusicTheory.m */; };
+		37E6847C1B38DCF300B95B0E /* KeyboardSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E6847B1B38DCF300B95B0E /* KeyboardSettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		37B14DA11B2B70EE00E9E1E8 /* DiatonicTouch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DiatonicTouch-Bridging-Header.h"; sourceTree = "<group>"; };
 		37B14DA21B2B70EE00E9E1E8 /* MusicTheory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicTheory.h; sourceTree = "<group>"; };
 		37B14DA31B2B70EE00E9E1E8 /* MusicTheory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicTheory.m; sourceTree = "<group>"; };
+		37E6847B1B38DCF300B95B0E /* KeyboardSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardSettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				37B14D991B2B21A300E9E1E8 /* InstrumentViewController.swift */,
 				37B14D9F1B2B37D000E9E1E8 /* DiatonicKeyboardView.swift */,
 				37B14D9B1B2B23DB00E9E1E8 /* LeftPanelViewController.swift */,
+				37E6847B1B38DCF300B95B0E /* KeyboardSettingsViewController.swift */,
 				37B14D9D1B2B31F600E9E1E8 /* RightPanelViewController.swift */,
 				37B14D7D1B2B1DA800E9E1E8 /* Main.storyboard */,
 				37B14D801B2B1DA800E9E1E8 /* Images.xcassets */,
@@ -161,6 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37E6847C1B38DCF300B95B0E /* KeyboardSettingsViewController.swift in Sources */,
 				37B14DA01B2B37D000E9E1E8 /* DiatonicKeyboardView.swift in Sources */,
 				37B14DA41B2B70EE00E9E1E8 /* MusicTheory.m in Sources */,
 				37B14D9A1B2B21A300E9E1E8 /* InstrumentViewController.swift in Sources */,
