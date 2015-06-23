@@ -10,4 +10,4 @@
                         // should be used in production only. see init method.
 
 #import "CsoundUI.h"    // used in InstrumentViewController - some extra api for easily attaching Cocoa UI to Csound
-                        // I have extended CsoundUI. Compatiable with UISegmentedControl. UISlider may or may not be continuous.
+                        

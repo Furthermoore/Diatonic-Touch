@@ -30,7 +30,6 @@
 #import "CsoundMomentaryButtonBinding.h"
 #import "CsoundSliderBinding.h"
 #import "CsoundSwitchBinding.h"
-#import "CsoundSegmentedControlBinding.h"
 
 @interface CsoundUI () {
     CsoundObj *csoundObj;
@@ -88,14 +87,6 @@
     momentaryButtonBinding = [[CsoundMomentaryButtonBinding alloc] initButton:uiButton
                                                                   channelName:channelName];
     [csoundObj addBinding:momentaryButtonBinding];
-}
-
--(void)addSegmentedControl:(UISegmentedControl *)segControl forChannelName:(NSString *)channelName
-{
-    CsoundSegmentedControlBinding *segmentedControlBinding;
-    segmentedControlBinding = [[CsoundSegmentedControlBinding alloc] initSegmentedControl:segControl
-                                                                              channelName:channelName];
-    [csoundObj addBinding:segmentedControlBinding];
 }
 
 @end

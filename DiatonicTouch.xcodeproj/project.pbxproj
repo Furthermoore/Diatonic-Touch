@@ -36,7 +36,6 @@
 		37E684CF1B3913D300B95B0E /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E684BE1B3913D300B95B0E /* libsndfile.a */; };
 		37E684D01B3913D300B95B0E /* LICENSE.TXT in Resources */ = {isa = PBXBuildFile; fileRef = 37E684BF1B3913D300B95B0E /* LICENSE.TXT */; };
 		37E684D21B39144F00B95B0E /* Hidrae.csd in Resources */ = {isa = PBXBuildFile; fileRef = 37E684D11B39144F00B95B0E /* Hidrae.csd */; };
-		37E684D51B39165F00B95B0E /* CsoundSegmentedControlBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E684D41B39165F00B95B0E /* CsoundSegmentedControlBinding.m */; };
 		37E684D71B39CDE500B95B0E /* midiTest.csd in Resources */ = {isa = PBXBuildFile; fileRef = 37E684D61B39CDE500B95B0E /* midiTest.csd */; };
 		37E684DB1B39F03200B95B0E /* ValueIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E684DA1B39F03200B95B0E /* ValueIndicator.swift */; };
 /* End PBXBuildFile section */
@@ -117,8 +116,6 @@
 		37E684BE1B3913D300B95B0E /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsndfile.a; sourceTree = "<group>"; };
 		37E684BF1B3913D300B95B0E /* LICENSE.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.TXT; sourceTree = "<group>"; };
 		37E684D11B39144F00B95B0E /* Hidrae.csd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Hidrae.csd; sourceTree = "<group>"; };
-		37E684D31B39165F00B95B0E /* CsoundSegmentedControlBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CsoundSegmentedControlBinding.h; sourceTree = "<group>"; };
-		37E684D41B39165F00B95B0E /* CsoundSegmentedControlBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CsoundSegmentedControlBinding.m; sourceTree = "<group>"; };
 		37E684D61B39CDE500B95B0E /* midiTest.csd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = midiTest.csd; sourceTree = "<group>"; };
 		37E684DA1B39F03200B95B0E /* ValueIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -246,8 +243,6 @@
 				37E684931B3913D300B95B0E /* CsoundSwitchBinding.m */,
 				37E684941B3913D300B95B0E /* CsoundUI.h */,
 				37E684951B3913D300B95B0E /* CsoundUI.m */,
-				37E684D31B39165F00B95B0E /* CsoundSegmentedControlBinding.h */,
-				37E684D41B39165F00B95B0E /* CsoundSegmentedControlBinding.m */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -403,7 +398,6 @@
 				37B14D9E1B2B31F600E9E1E8 /* RightPanelViewController.swift in Sources */,
 				37E684C61B3913D300B95B0E /* CsoundMomentaryButtonBinding.m in Sources */,
 				37B14D7A1B2B1DA800E9E1E8 /* AppDelegate.swift in Sources */,
-				37E684D51B39165F00B95B0E /* CsoundSegmentedControlBinding.m in Sources */,
 				37E684C01B3913D300B95B0E /* CsoundAccelerometerBinding.m in Sources */,
 				37E684C31B3913D300B95B0E /* CsoundMotion.m in Sources */,
 			);

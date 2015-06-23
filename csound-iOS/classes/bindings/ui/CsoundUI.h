@@ -36,6 +36,5 @@
 - (void)addSlider:(UISlider *)uiSlider forChannelName:(NSString *)channelName continuous:(BOOL)cont;
 - (void)addSwitch:(UISwitch *)uiSwitch forChannelName:(NSString *)channelName;
 - (void)addMomentaryButton:(UIButton *)uiButton forChannelName:(NSString *)channelName;
-- (void)addSegmentedControl:(UISegmentedControl*)segControl forChannelName:(NSString *)channelName;
 
 @end
