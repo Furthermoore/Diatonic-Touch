@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LeftPanelViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class SettingsPanelViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     let headerHeight: CGFloat = 55.0
     
@@ -25,7 +25,7 @@ class LeftPanelViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         view.frame = CGRectMake(0.0, 0.0, leftPanelWidth, view.frame.size.height)
         
         let titleLabel = UILabel(frame: CGRectMake(0.0, 0.0, leftPanelWidth, headerHeight))
-        titleLabel.text = "KeyboardSettings"
+        titleLabel.text = "Keyboard Settings"
         titleLabel.textAlignment = NSTextAlignment.Center
         view.addSubview(titleLabel)
         

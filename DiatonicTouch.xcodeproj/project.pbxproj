@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		377C54131B3B625E00524AA8 /* PresetNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377C54121B3B625E00524AA8 /* PresetNavigationViewController.swift */; };
+		377C54151B3B628100524AA8 /* PresetListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377C54141B3B628100524AA8 /* PresetListTableViewController.swift */; };
+		377C54181B3B6C3200524AA8 /* DiatonicTouch.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 377C54161B3B6C3200524AA8 /* DiatonicTouch.xcdatamodeld */; };
+		377C541A1B3B701100524AA8 /* scanned.csd in Resources */ = {isa = PBXBuildFile; fileRef = 377C54191B3B701100524AA8 /* scanned.csd */; };
 		37B14D7A1B2B1DA800E9E1E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B14D791B2B1DA800E9E1E8 /* AppDelegate.swift */; };
 		37B14D7C1B2B1DA800E9E1E8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B14D7B1B2B1DA800E9E1E8 /* MainViewController.swift */; };
 		37B14D7F1B2B1DA800E9E1E8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37B14D7D1B2B1DA800E9E1E8 /* Main.storyboard */; };
 		37B14D811B2B1DA800E9E1E8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37B14D801B2B1DA800E9E1E8 /* Images.xcassets */; };
 		37B14D841B2B1DA800E9E1E8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37B14D821B2B1DA800E9E1E8 /* LaunchScreen.xib */; };
 		37B14D9A1B2B21A300E9E1E8 /* InstrumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B14D991B2B21A300E9E1E8 /* InstrumentViewController.swift */; };
-		37B14D9C1B2B23DB00E9E1E8 /* LeftPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B14D9B1B2B23DB00E9E1E8 /* LeftPanelViewController.swift */; };
-		37B14D9E1B2B31F600E9E1E8 /* RightPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B14D9D1B2B31F600E9E1E8 /* RightPanelViewController.swift */; };
+		37B14D9C1B2B23DB00E9E1E8 /* SettingsPanelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B14D9B1B2B23DB00E9E1E8 /* SettingsPanelViewController.swift */; };
 		37B14DA01B2B37D000E9E1E8 /* DiatonicKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B14D9F1B2B37D000E9E1E8 /* DiatonicKeyboardView.swift */; };
 		37B14DA41B2B70EE00E9E1E8 /* MusicTheory.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B14DA31B2B70EE00E9E1E8 /* MusicTheory.m */; };
-		37E6847C1B38DCF300B95B0E /* KeyboardSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E6847B1B38DCF300B95B0E /* KeyboardSettingsViewController.swift */; };
 		37E684C01B3913D300B95B0E /* CsoundAccelerometerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E684821B3913D300B95B0E /* CsoundAccelerometerBinding.m */; };
 		37E684C11B3913D300B95B0E /* CsoundAttitudeBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E684841B3913D300B95B0E /* CsoundAttitudeBinding.m */; };
 		37E684C21B3913D300B95B0E /* CsoundGyroscopeBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E684861B3913D300B95B0E /* CsoundGyroscopeBinding.m */; };
@@ -35,12 +37,14 @@
 		37E684CE1B3913D300B95B0E /* libcsound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E684BD1B3913D300B95B0E /* libcsound.a */; };
 		37E684CF1B3913D300B95B0E /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E684BE1B3913D300B95B0E /* libsndfile.a */; };
 		37E684D01B3913D300B95B0E /* LICENSE.TXT in Resources */ = {isa = PBXBuildFile; fileRef = 37E684BF1B3913D300B95B0E /* LICENSE.TXT */; };
-		37E684D21B39144F00B95B0E /* Hidrae.csd in Resources */ = {isa = PBXBuildFile; fileRef = 37E684D11B39144F00B95B0E /* Hidrae.csd */; };
-		37E684D71B39CDE500B95B0E /* midiTest.csd in Resources */ = {isa = PBXBuildFile; fileRef = 37E684D61B39CDE500B95B0E /* midiTest.csd */; };
 		37E684DB1B39F03200B95B0E /* ValueIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E684DA1B39F03200B95B0E /* ValueIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		377C54121B3B625E00524AA8 /* PresetNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresetNavigationViewController.swift; sourceTree = "<group>"; };
+		377C54141B3B628100524AA8 /* PresetListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresetListTableViewController.swift; sourceTree = "<group>"; };
+		377C54171B3B6C3200524AA8 /* DiatonicTouch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiatonicTouch.xcdatamodel; sourceTree = "<group>"; };
+		377C54191B3B701100524AA8 /* scanned.csd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scanned.csd; path = ../scanned.csd; sourceTree = "<group>"; };
 		37B14D741B2B1DA800E9E1E8 /* DiatonicTouch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiatonicTouch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37B14D781B2B1DA800E9E1E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37B14D791B2B1DA800E9E1E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,13 +53,11 @@
 		37B14D801B2B1DA800E9E1E8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		37B14D831B2B1DA800E9E1E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		37B14D991B2B21A300E9E1E8 /* InstrumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentViewController.swift; sourceTree = "<group>"; };
-		37B14D9B1B2B23DB00E9E1E8 /* LeftPanelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftPanelViewController.swift; sourceTree = "<group>"; };
-		37B14D9D1B2B31F600E9E1E8 /* RightPanelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightPanelViewController.swift; sourceTree = "<group>"; };
+		37B14D9B1B2B23DB00E9E1E8 /* SettingsPanelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsPanelViewController.swift; sourceTree = "<group>"; };
 		37B14D9F1B2B37D000E9E1E8 /* DiatonicKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiatonicKeyboardView.swift; sourceTree = "<group>"; };
 		37B14DA11B2B70EE00E9E1E8 /* DiatonicTouch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DiatonicTouch-Bridging-Header.h"; sourceTree = "<group>"; };
 		37B14DA21B2B70EE00E9E1E8 /* MusicTheory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicTheory.h; sourceTree = "<group>"; };
 		37B14DA31B2B70EE00E9E1E8 /* MusicTheory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicTheory.m; sourceTree = "<group>"; };
-		37E6847B1B38DCF300B95B0E /* KeyboardSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardSettingsViewController.swift; sourceTree = "<group>"; };
 		37E684811B3913D300B95B0E /* CsoundAccelerometerBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CsoundAccelerometerBinding.h; sourceTree = "<group>"; };
 		37E684821B3913D300B95B0E /* CsoundAccelerometerBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CsoundAccelerometerBinding.m; sourceTree = "<group>"; };
 		37E684831B3913D300B95B0E /* CsoundAttitudeBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CsoundAttitudeBinding.h; sourceTree = "<group>"; };
@@ -115,8 +117,6 @@
 		37E684BD1B3913D300B95B0E /* libcsound.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcsound.a; sourceTree = "<group>"; };
 		37E684BE1B3913D300B95B0E /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsndfile.a; sourceTree = "<group>"; };
 		37E684BF1B3913D300B95B0E /* LICENSE.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.TXT; sourceTree = "<group>"; };
-		37E684D11B39144F00B95B0E /* Hidrae.csd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Hidrae.csd; sourceTree = "<group>"; };
-		37E684D61B39CDE500B95B0E /* midiTest.csd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = midiTest.csd; sourceTree = "<group>"; };
 		37E684DA1B39F03200B95B0E /* ValueIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,13 +133,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		377C541E1B3B74F000524AA8 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				37B14D9B1B2B23DB00E9E1E8 /* SettingsPanelViewController.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		377C541F1B3B74FC00524AA8 /* Presets */ = {
+			isa = PBXGroup;
+			children = (
+				377C54161B3B6C3200524AA8 /* DiatonicTouch.xcdatamodeld */,
+				377C54121B3B625E00524AA8 /* PresetNavigationViewController.swift */,
+				377C54141B3B628100524AA8 /* PresetListTableViewController.swift */,
+			);
+			name = Presets;
+			sourceTree = "<group>";
+		};
+		377C54201B3B751600524AA8 /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				37E684DA1B39F03200B95B0E /* ValueIndicator.swift */,
+			);
+			name = Global;
+			sourceTree = "<group>";
+		};
+		377C54211B3B752A00524AA8 /* DiatonicKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				377C541E1B3B74F000524AA8 /* Settings */,
+				37B14D9F1B2B37D000E9E1E8 /* DiatonicKeyboardView.swift */,
+				37B14DA21B2B70EE00E9E1E8 /* MusicTheory.h */,
+				37B14DA31B2B70EE00E9E1E8 /* MusicTheory.m */,
+			);
+			name = DiatonicKeyboard;
+			sourceTree = "<group>";
+		};
 		37B14D6B1B2B1DA800E9E1E8 = {
 			isa = PBXGroup;
 			children = (
 				37B14D761B2B1DA800E9E1E8 /* DiatonicTouch */,
 				37E6847D1B3913D300B95B0E /* csound-iOS */,
 				37B14D751B2B1DA800E9E1E8 /* Products */,
-				37E684D61B39CDE500B95B0E /* midiTest.csd */,
 			);
 			sourceTree = "<group>";
 		};
@@ -157,18 +193,13 @@
 				37B14D791B2B1DA800E9E1E8 /* AppDelegate.swift */,
 				37B14D7B1B2B1DA800E9E1E8 /* MainViewController.swift */,
 				37B14D991B2B21A300E9E1E8 /* InstrumentViewController.swift */,
-				37B14D9F1B2B37D000E9E1E8 /* DiatonicKeyboardView.swift */,
-				37B14D9B1B2B23DB00E9E1E8 /* LeftPanelViewController.swift */,
-				37E6847B1B38DCF300B95B0E /* KeyboardSettingsViewController.swift */,
-				37B14D9D1B2B31F600E9E1E8 /* RightPanelViewController.swift */,
+				377C54211B3B752A00524AA8 /* DiatonicKeyboard */,
+				377C541F1B3B74FC00524AA8 /* Presets */,
+				377C54201B3B751600524AA8 /* Global */,
 				37B14D7D1B2B1DA800E9E1E8 /* Main.storyboard */,
 				37B14D801B2B1DA800E9E1E8 /* Images.xcassets */,
 				37B14D821B2B1DA800E9E1E8 /* LaunchScreen.xib */,
-				37B14DA21B2B70EE00E9E1E8 /* MusicTheory.h */,
-				37B14DA31B2B70EE00E9E1E8 /* MusicTheory.m */,
 				37B14D771B2B1DA800E9E1E8 /* Supporting Files */,
-				37B14DA11B2B70EE00E9E1E8 /* DiatonicTouch-Bridging-Header.h */,
-				37E684DA1B39F03200B95B0E /* ValueIndicator.swift */,
 			);
 			path = DiatonicTouch;
 			sourceTree = "<group>";
@@ -176,6 +207,7 @@
 		37B14D771B2B1DA800E9E1E8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				37B14DA11B2B70EE00E9E1E8 /* DiatonicTouch-Bridging-Header.h */,
 				37B14D781B2B1DA800E9E1E8 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -184,7 +216,7 @@
 		37E6847D1B3913D300B95B0E /* csound-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				37E684D11B39144F00B95B0E /* Hidrae.csd */,
+				377C54191B3B701100524AA8 /* scanned.csd */,
 				37E6847E1B3913D300B95B0E /* classes */,
 				37E684A01B3913D300B95B0E /* headers */,
 				37E684BC1B3913D300B95B0E /* libs */,
@@ -361,12 +393,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37E684D21B39144F00B95B0E /* Hidrae.csd in Resources */,
 				37E684D01B3913D300B95B0E /* LICENSE.TXT in Resources */,
 				37B14D7F1B2B1DA800E9E1E8 /* Main.storyboard in Resources */,
 				37B14D841B2B1DA800E9E1E8 /* LaunchScreen.xib in Resources */,
 				37B14D811B2B1DA800E9E1E8 /* Images.xcassets in Resources */,
-				37E684D71B39CDE500B95B0E /* midiTest.csd in Resources */,
+				377C541A1B3B701100524AA8 /* scanned.csd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,7 +408,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37E6847C1B38DCF300B95B0E /* KeyboardSettingsViewController.swift in Sources */,
+				377C54131B3B625E00524AA8 /* PresetNavigationViewController.swift in Sources */,
 				37E684C91B3913D300B95B0E /* CsoundUI.m in Sources */,
 				37E684C41B3913D300B95B0E /* CsoundButtonBinding.m in Sources */,
 				37E684C11B3913D300B95B0E /* CsoundAttitudeBinding.m in Sources */,
@@ -385,6 +416,7 @@
 				37B14DA01B2B37D000E9E1E8 /* DiatonicKeyboardView.swift in Sources */,
 				37E684CD1B3913D300B95B0E /* SliderMidiWidgetWrapper.m in Sources */,
 				37B14DA41B2B70EE00E9E1E8 /* MusicTheory.m in Sources */,
+				377C54181B3B6C3200524AA8 /* DiatonicTouch.xcdatamodeld in Sources */,
 				37E684CB1B3913D300B95B0E /* CsoundMIDI.m in Sources */,
 				37E684C21B3913D300B95B0E /* CsoundGyroscopeBinding.m in Sources */,
 				37E684C51B3913D300B95B0E /* CsoundLabelBinding.m in Sources */,
@@ -393,9 +425,9 @@
 				37E684CC1B3913D300B95B0E /* MidiWidgetsManager.m in Sources */,
 				37E684C81B3913D300B95B0E /* CsoundSwitchBinding.m in Sources */,
 				37B14D7C1B2B1DA800E9E1E8 /* MainViewController.swift in Sources */,
-				37B14D9C1B2B23DB00E9E1E8 /* LeftPanelViewController.swift in Sources */,
+				37B14D9C1B2B23DB00E9E1E8 /* SettingsPanelViewController.swift in Sources */,
 				37E684C71B3913D300B95B0E /* CsoundSliderBinding.m in Sources */,
-				37B14D9E1B2B31F600E9E1E8 /* RightPanelViewController.swift in Sources */,
+				377C54151B3B628100524AA8 /* PresetListTableViewController.swift in Sources */,
 				37E684C61B3913D300B95B0E /* CsoundMomentaryButtonBinding.m in Sources */,
 				37B14D7A1B2B1DA800E9E1E8 /* AppDelegate.swift in Sources */,
 				37E684C01B3913D300B95B0E /* CsoundAccelerometerBinding.m in Sources */,
@@ -563,6 +595,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		377C54161B3B6C3200524AA8 /* DiatonicTouch.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				377C54171B3B6C3200524AA8 /* DiatonicTouch.xcdatamodel */,
+			);
+			currentVersion = 377C54171B3B6C3200524AA8 /* DiatonicTouch.xcdatamodel */;
+			path = DiatonicTouch.xcdatamodeld;
+			sourceTree = SOURCE_ROOT;
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 37B14D6C1B2B1DA800E9E1E8 /* Project object */;
 }

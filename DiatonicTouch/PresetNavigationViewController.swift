@@ -1,19 +1,19 @@
 //
-//  KeyboardSettingsViewController.swift
+//  PresetNavigationViewController.swift
 //  DiatonicTouch
 //
-//  Created by Dan Moore on 6/22/15.
+//  Created by Dan Moore on 6/24/15.
 //  Copyright (c) 2015 FurtherMoore. All rights reserved.
 //
 
 import UIKit
 
-class KeyboardSettingsViewController: UIViewController {
-
+class PresetNavigationViewController: UINavigationController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        view.frame = CGRectMake(self.view.frame.size.width-rightPanelWidth, 0.0, rightPanelWidth, self.view.frame.size.height)
     }
 
     override func didReceiveMemoryWarning() {
