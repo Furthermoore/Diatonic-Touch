@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Preset" syncable="YES">
+    <entity name="Preset" representedClassName="DiatonicTouch.Preset" syncable="YES">
+        <attribute name="att" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="cutoff" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="dec" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="detune" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="filttype" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="fxdepth" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="fxmix" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="fxrate" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="fxtype" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="initial" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="lfoamp" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lfofreq" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lfotype" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="master" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rel" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="reso" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="sus" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="tuning" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Preset" positionX="-54" positionY="-9" width="128" height="60"/>
+        <element name="Preset" positionX="-54" positionY="-9" width="128" height="330"/>
     </elements>
 </model>

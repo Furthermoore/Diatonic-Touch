@@ -11,7 +11,8 @@ import CoreData
 
 class PresetListTableViewController: UITableViewController {
     
-    var presets = [NSManagedObject]()
+    var instrument: InstrumentViewController?
+    var presets = [Preset]()
 
     // INIT OVERRIDES
     override init(style: UITableViewStyle) {
@@ -46,10 +47,9 @@ class PresetListTableViewController: UITableViewController {
         
         let fetchRequest = NSFetchRequest(entityName: "Preset")
         var error: NSError?
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject]
-        
-        if let results = fetchedResults {
-            presets = results
+        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [Preset]
+        if let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [Preset] {
+            presets = fetchedResults
         } else {
             println("Could not fetch \(error), \(error!.userInfo)")
         }
@@ -90,10 +90,27 @@ class PresetListTableViewController: UITableViewController {
         
         // 2. Create NSManagedObject
         let entity = NSEntityDescription.entityForName("Preset", inManagedObjectContext: managedContext)
-        let preset = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let preset = Preset(entity: entity!, insertIntoManagedObjectContext: managedContext)
         
         //3. set object values, KVC
-        preset.setValue(name, forKey: "name")
+        preset.name = name
+        preset.att = instrument!.adsrView.attackSlider.value
+        preset.dec = instrument!.adsrView.decaySlider.value
+        preset.sus = instrument!.adsrView.sustainSlider.value
+        preset.rel = instrument!.adsrView.releaseSlider.value
+        preset.initial = instrument!.scannedView.initialSlider.value
+        preset.tuning = instrument!.scannedView.tuningSlider.value
+        preset.detune = instrument!.scannedView.detuneSlider.value
+        preset.lfofreq = instrument!.lfoView.freqSlider.value
+        preset.lfoamp = instrument!.lfoView.ampSlider.value
+        preset.lfotype = instrument!.lfoView.typeSlider.value
+        preset.cutoff = instrument!.filterView.cutoffSlider.value
+        preset.reso = instrument!.filterView.resoSlider.value
+        preset.filttype = instrument!.filterView.typeSlider.value
+        preset.fxrate = instrument!.effectView.rateSlider.value
+        preset.fxdepth = instrument!.effectView.depthSlider.value
+        preset.fxtype = instrument!.effectView.typeSlider.value
+        preset.fxmix = instrument!.effectView.mixSlider.value
         
         // 4. save and report
         var error: NSError?
@@ -158,6 +175,28 @@ class PresetListTableViewController: UITableViewController {
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             
         }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let preset = presets[indexPath.row]
+        instrument!.adsrView.attackSlider.value = Float(preset.att)
+        instrument!.adsrView.decaySlider.value = Float(preset.dec)
+        instrument!.adsrView.sustainSlider.value = Float(preset.sus)
+        instrument!.adsrView.releaseSlider.value = Float(preset.rel)
+        instrument!.scannedView.initialSlider.value = Float(preset.initial)
+        instrument!.scannedView.tuningSlider.value = Float(preset.tuning)
+        instrument!.scannedView.detuneSlider.value = Float(preset.detune)
+        instrument!.lfoView.freqSlider.value = Float(preset.lfofreq)
+        instrument!.lfoView.ampSlider.value = Float(preset.lfoamp)
+        instrument!.lfoView.typeSlider.value = Float(preset.lfotype)
+        instrument!.filterView.cutoffSlider.value = Float(preset.cutoff)
+        instrument!.filterView.resoSlider.value = Float(preset.reso)
+        instrument!.filterView.typeSlider.value = Float(preset.filttype)
+        instrument!.effectView.rateSlider.value = Float(preset.fxrate)
+        instrument!.effectView.depthSlider.value = Float(preset.fxdepth)
+        instrument!.effectView.typeSlider.value = Float(preset.fxtype)
+        instrument!.effectView.mixSlider.value = Float(preset.fxmix)
+        instrument!.mixerView.masterSlider.value = Float(preset.master)
     }
     
 
