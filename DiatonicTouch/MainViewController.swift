@@ -30,7 +30,9 @@ class MainViewController: UIViewController {
         return leftPanel
     }()
     lazy var rightPanelVC: PresetNavigationViewController = {
-        var rightPanel = PresetNavigationViewController(rootViewController: PresetListTableViewController())
+        let presetTableVC = PresetListTableViewController()
+        presetTableVC.instrument = self.centerVC
+        var rightPanel = PresetNavigationViewController(rootViewController: presetTableVC)
         self.view.addSubview(rightPanel.view)
         self.addChildViewController(rightPanel)
         rightPanel.didMoveToParentViewController(self)
