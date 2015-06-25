@@ -1,6 +1,6 @@
 <CsoundSynthesizer> 
 <CsOptions> 
--o dac -d -+msg_color=0 -M0 -m0
+-o dac -d -+msg_color=0
 </CsOptions>
 <CsInstruments>
 

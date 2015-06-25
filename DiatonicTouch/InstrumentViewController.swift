@@ -14,50 +14,194 @@ class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKey
     
     let csound = CsoundObj()
     
-    let autolayoutMetrics = ["controlPanelHeight":175.0]
+    let autolayoutMetrics = ["controlPanelHeight":180.0]
+    
+    lazy var adsrView: ADSRView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "ADSRView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! ADSRView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        return someView
+    }()
+    
+    lazy var scannedView:ScannedView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "ScannedView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! ScannedView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        someView.alpha = 0.0
+        return someView
+    }()
+    
+    lazy var lfoView:LFOView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "LFOView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! LFOView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        someView.alpha = 0.0
+        return someView
+        }()
+    
+    lazy var filterView:FilterView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "FilterView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! FilterView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        someView.alpha = 0.0
+        return someView
+        }()
+    
+    lazy var effectView:EffectsView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "EffectsView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! EffectsView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        someView.alpha = 0.0
+        return someView
+        }()
+    
+    lazy var mixerView:MixerView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "MixerView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! MixerView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        someView.alpha = 0.0
+        return someView
+        }()
     
     var displayingValue: Bool = false
-    
-    // PARAMETER SUBVIEWS
-    let adsrView = UIView()
-    let attackSlider = UISlider()
-    let decaySlider = UISlider()
-    let sustainSlider = UISlider()
-    let releaseSlider = UISlider()
-    
-    let scannedView = UIView()
-    let initialSlider = UISlider()
-    let tuningSlider = UISlider()
-    let detMultSlider = UISlider()
-    
-    let lfoView = UIView()
-    let lfoAmpSlider = UISlider()
-    let lfoCPSSlider = UISlider()
-    let lfoTypeSlider = UISlider()
-    
-    let filterView = UIView()
-    let flCutoffSlider = UISlider()
-    let flResSlider = UISlider()
-    let filtersSlider = UISlider()
-    
-    let effectView = UIView()
-    let effectsSlider = UISlider()
-    let effectsRateSlider = UISlider()
-    let effectsDepthSlider = UISlider()
-    let effectsMixSlider = UISlider()
-    
-    let mixView = UIView()
-    let masterSlider = UISlider()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         createControlPanel()
         createKeyboard()
-        createParameterSubviews()
+        
+        view.addSubview(adsrView)
+        view.addSubview(scannedView)
+        view.addSubview(lfoView)
+        view.addSubview(filterView)
+        view.addSubview(effectView)
+        view.addSubview(mixerView)
+        
+        let views = ["adsrView":adsrView, "scannedView":scannedView, "lfoView":lfoView, "filterView":filterView, "effectView":effectView, "mixerView":mixerView]
+        let metrics = ["paramViewOffset":55.0, "paramViewHeight":125.0]
+        
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[adsrView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[scannedView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[lfoView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[filterView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[effectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[mixerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[adsrView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[scannedView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[lfoView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[filterView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[effectView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[mixerView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+
+        
+        adsrView.attackSlider.minimumValue = 0.2
+        adsrView.attackSlider.maximumValue = 6.0
+        adsrView.attackSlider.value = 1.0
+        adsrView.decaySlider.minimumValue = 0.01
+        adsrView.decaySlider.maximumValue = 1.0
+        adsrView.decaySlider.value = 0.1
+        adsrView.sustainSlider.minimumValue = 0.0
+        adsrView.sustainSlider.maximumValue = 1.0
+        adsrView.sustainSlider.value = 0.7
+        adsrView.releaseSlider.minimumValue = 0.02
+        adsrView.releaseSlider.maximumValue = 6.0
+        adsrView.releaseSlider.value = 1.0
+        
+        scannedView.initialSlider.minimumValue = 50
+        scannedView.initialSlider.maximumValue = 59
+        scannedView.initialSlider.value = 50
+        scannedView.tuningSlider.minimumValue = 101
+        scannedView.tuningSlider.maximumValue = 114
+        scannedView.tuningSlider.value = 101
+        scannedView.detuneSlider.minimumValue = 1.0
+        scannedView.detuneSlider.maximumValue = 1.2
+        scannedView.detuneSlider.value = 1.0
+        
+        lfoView.freqSlider.minimumValue = 0
+        lfoView.freqSlider.maximumValue = 20
+        lfoView.freqSlider.value = 0
+        lfoView.ampSlider.minimumValue = 0
+        lfoView.ampSlider.maximumValue = 20
+        lfoView.ampSlider.value = 0
+        lfoView.typeSlider.minimumValue = 0
+        lfoView.typeSlider.maximumValue = 5
+        lfoView.typeSlider.value = 0
+        
+        filterView.cutoffSlider.minimumValue = 200
+        filterView.cutoffSlider.maximumValue = 22000
+        filterView.cutoffSlider.value = 13932
+        filterView.resoSlider.minimumValue = 0.1
+        filterView.resoSlider.maximumValue = 0.9
+        filterView.resoSlider.value = 0.45
+        filterView.typeSlider.minimumValue = 0
+        filterView.typeSlider.maximumValue = 5
+        filterView.typeSlider.value = 0
+        
+        effectView.rateSlider.minimumValue = 0.1
+        effectView.rateSlider.maximumValue = 12.0
+        effectView.rateSlider.value = 5.0
+        effectView.depthSlider.minimumValue = 100
+        effectView.depthSlider.maximumValue = 2000
+        effectView.depthSlider.value = 800.0
+        effectView.typeSlider.minimumValue = 0
+        effectView.typeSlider.maximumValue = 5
+        effectView.typeSlider.value = 0
+        effectView.mixSlider.minimumValue = 0.0
+        effectView.mixSlider.maximumValue = 1.0
+        effectView.mixSlider.value = 0.0
+        
+        mixerView.masterSlider.minimumValue = 0.0
+        mixerView.masterSlider.maximumValue = 1.0
+        mixerView.masterSlider.value = 0.7
+        
+        sendSliderValueNotifications(adsrView.attackSlider)
+        sendSliderValueNotifications(adsrView.decaySlider)
+        sendSliderValueNotifications(adsrView.sustainSlider)
+        sendSliderValueNotifications(adsrView.releaseSlider)
+        sendSliderValueNotifications(scannedView.initialSlider)
+        sendSliderValueNotifications(scannedView.tuningSlider)
+        sendSliderValueNotifications(scannedView.detuneSlider)
+        sendSliderValueNotifications(lfoView.freqSlider)
+        sendSliderValueNotifications(lfoView.ampSlider)
+        sendSliderValueNotifications(lfoView.typeSlider)
+        sendSliderValueNotifications(filterView.cutoffSlider)
+        sendSliderValueNotifications(filterView.resoSlider)
+        sendSliderValueNotifications(filterView.typeSlider)
+        sendSliderValueNotifications(effectView.rateSlider)
+        sendSliderValueNotifications(effectView.depthSlider)
+        sendSliderValueNotifications(effectView.typeSlider)
+        sendSliderValueNotifications(effectView.mixSlider)
+        sendSliderValueNotifications(mixerView.masterSlider)
+        
+        let csoundUI = CsoundUI(csoundObj: csound)
+        csoundUI.addSlider(adsrView.attackSlider, forChannelName: "attack", continuous: true)
+        csoundUI.addSlider(adsrView.decaySlider, forChannelName: "decay", continuous: true)
+        csoundUI.addSlider(adsrView.sustainSlider, forChannelName: "sustain", continuous: true)
+        csoundUI.addSlider(adsrView.releaseSlider, forChannelName: "release", continuous: true)
+        csoundUI.addSlider(scannedView.initialSlider, forChannelName: "initial", continuous: false)
+        csoundUI.addSlider(scannedView.tuningSlider, forChannelName: "tuning", continuous: false)
+        csoundUI.addSlider(scannedView.detuneSlider, forChannelName: "detMult", continuous: true)
+        csoundUI.addSlider(lfoView.freqSlider, forChannelName: "cpslfo", continuous: false)
+        csoundUI.addSlider(lfoView.ampSlider, forChannelName: "amplfo", continuous: false)
+        csoundUI.addSlider(lfoView.typeSlider, forChannelName: "lfotype", continuous: false)
+        csoundUI.addSlider(filterView.cutoffSlider, forChannelName: "cutoff", continuous: true)
+        csoundUI.addSlider(filterView.resoSlider, forChannelName: "res", continuous: true)
+        csoundUI.addSlider(filterView.typeSlider, forChannelName: "filters", continuous: false)
+        csoundUI.addSlider(effectView.rateSlider, forChannelName: "fxrate", continuous: true)
+        csoundUI.addSlider(effectView.depthSlider, forChannelName: "fxdepth", continuous: true)
+        csoundUI.addSlider(effectView.mixSlider, forChannelName: "fxmix", continuous: true)
+        csoundUI.addSlider(effectView.typeSlider, forChannelName: "effects", continuous: false)
+        csoundUI.addSlider(mixerView.masterSlider, forChannelName: "master", continuous: true)
         
         csound.addListener(self)
-        csound.play(NSBundle.mainBundle().pathForResource("midiTest", ofType: "csd"))
+        csound.play(NSBundle.mainBundle().pathForResource("scanned", ofType: "csd"))
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -120,39 +264,6 @@ class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKey
 
     }
     
-    func createParameterSubviews() {
-        
-        // CREATE ADSR VIEWS
-        attackSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        attackSlider.minimumValue = 0.02
-        attackSlider.maximumValue = 6.0
-        sendSliderValueNotifications(attackSlider)
-        
-        decaySlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        decaySlider.minimumValue = 0.0
-        decaySlider.maximumValue = 1.0
-        sendSliderValueNotifications(decaySlider)
-        
-        sustainSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        sustainSlider.minimumValue = 0.0
-        sustainSlider.maximumValue = 1.0
-        sendSliderValueNotifications(sustainSlider)
-        
-        releaseSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        releaseSlider.minimumValue = 0.02
-        releaseSlider.maximumValue = 6.0
-        sendSliderValueNotifications(releaseSlider)
-        
-        attackLabel = UI
-        
-        adsrView.addSubview(attackSlider)
-        adsrView.addSubview(decaySlider)
-        adsrView.addSubview(sustainSlider)
-        adsrView.addSubview(releaseSlider)
-        
-        
-    }
-    
     func sendSliderValueNotifications(slider: UISlider) {
         slider.addTarget(self, action: "displayValue:", forControlEvents: UIControlEvents.ValueChanged)
         slider.addTarget(self, action: "stopDisplayingValue", forControlEvents: UIControlEvents.TouchUpOutside | UIControlEvents.TouchUpInside)
@@ -160,6 +271,7 @@ class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKey
     
     func displayValue(slider: UISlider) {
         ValueIndicator.sharedInstance.fadeInLabel()
+        ValueIndicator.sharedInstance.indicatorLabel.text = String(format: "%.1f", arguments: [slider.value])
     }
     
     func stopDisplayingValue() {
@@ -175,6 +287,64 @@ class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKey
     }
     
     func changeParameterSet(sender: AnyObject) {
+        if let control = sender as? UISegmentedControl {
+            if control.selectedSegmentIndex == 0 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 1.0
+                    self.scannedView.alpha = 0.0
+                    self.lfoView.alpha = 0.0
+                    self.filterView.alpha = 0.0
+                    self.effectView.alpha = 0.0
+                    self.mixerView.alpha = 0.0
+                })
+            } else if control.selectedSegmentIndex == 1 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 0.0
+                    self.scannedView.alpha = 1.0
+                    self.lfoView.alpha = 0.0
+                    self.filterView.alpha = 0.0
+                    self.effectView.alpha = 0.0
+                    self.mixerView.alpha = 0.0
+                })
+            } else if control.selectedSegmentIndex == 2 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 0.0
+                    self.scannedView.alpha = 0.0
+                    self.lfoView.alpha = 1.0
+                    self.filterView.alpha = 0.0
+                    self.effectView.alpha = 0.0
+                    self.mixerView.alpha = 0.0
+                })
+            } else if control.selectedSegmentIndex == 3 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 0.0
+                    self.scannedView.alpha = 0.0
+                    self.lfoView.alpha = 0.0
+                    self.filterView.alpha = 1.0
+                    self.effectView.alpha = 0.0
+                    self.mixerView.alpha = 0.0
+                })
+            } else if control.selectedSegmentIndex == 4 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 0.0
+                    self.scannedView.alpha = 0.0
+                    self.lfoView.alpha = 0.0
+                    self.filterView.alpha = 0.0
+                    self.effectView.alpha = 1.0
+                    self.mixerView.alpha = 0.0
+                })
+
+            } else if control.selectedSegmentIndex == 5 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 0.0
+                    self.scannedView.alpha = 0.0
+                    self.lfoView.alpha = 0.0
+                    self.filterView.alpha = 0.0
+                    self.effectView.alpha = 0.0
+                    self.mixerView.alpha = 1.0
+                })
+            }
+        }
         
     }
     

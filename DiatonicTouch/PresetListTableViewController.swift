@@ -136,26 +136,27 @@ class PresetListTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             
-            // 1. Delete the row from the data source
-            presets.removeAtIndex(indexPath.row)
-
-            // 2. let the tableView know appropriately
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-            
             // Delete the persistent storage from memery
-            // 3. Get managedObjectContext
+            // 1. Get managedObjectContext
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let managedContext = appDelegate.managedObjectContext!
             
-            // 4. Get managedObject instance
+            // 2. Get managedObject instance
             let managedObject = presets[indexPath.row]
             managedContext.deleteObject(managedObject)
             
-            // 5. Save managedObjectContext changes
+            // 3. Save managedObjectContext changes
             var error: NSError?
             if !managedContext.save(&error) {
                 println("Could not save \(error), \(error?.userInfo)")
             }
+            
+            // 4. Delete the row from the data source
+            presets.removeAtIndex(indexPath.row)
+
+            // 5. let the tableView know appropriately
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            
         }
     }
     
