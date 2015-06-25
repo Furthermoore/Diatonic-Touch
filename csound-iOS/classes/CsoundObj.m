@@ -60,7 +60,7 @@ void InterruptionListener(void *inClientData, UInt32 inInterruption);
     listeners = [[NSMutableArray alloc] init];
     _midiInEnabled = NO;
     _useAudioInput = NO;
-//      [self setMessageCallback:@selector(messageCallback:) withListener:self];
+      [self setMessageCallback:@selector(messageCallback:) withListener:self];
   }
   return self;
 }

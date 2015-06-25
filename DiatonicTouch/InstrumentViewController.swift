@@ -14,19 +14,60 @@ class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKey
     
     let csound = CsoundObj()
     
-    // Parameter Subviews
-    var osc1Subviews: [UIView] = []
-    var osc2Subviews: [UIView] = []
-    var adsrSubviews: [UIView] = []
-
-    let osc1DriveSlider = UISlider()
-    let osc2DriveSlider = UISlider()
-    let osc1SemiSlider = UISlider() // reference for rounding
-    let osc2SemiSlider = UISlider()
-    let waveform1Control = UISegmentedControl(items: ["pluck", "saw", "metal"]) // reference for csound message sending
-    let waveform2Control = UISegmentedControl(items: ["pluck", "saw", "metal"])
-
-    let autolayoutMetrics = ["controlPanelHeight":175.0]
+    let autolayoutMetrics = ["controlPanelHeight":180.0]
+    
+    lazy var adsrView: ADSRView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "ADSRView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! ADSRView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        return someView
+    }()
+    
+    lazy var scannedView:ScannedView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "ScannedView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! ScannedView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        someView.alpha = 0.0
+        return someView
+    }()
+    
+    lazy var lfoView:LFOView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "LFOView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! LFOView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        someView.alpha = 0.0
+        return someView
+        }()
+    
+    lazy var filterView:FilterView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "FilterView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! FilterView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        someView.alpha = 0.0
+        return someView
+        }()
+    
+    lazy var effectView:EffectsView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "EffectsView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! EffectsView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        someView.alpha = 0.0
+        return someView
+        }()
+    
+    lazy var mixerView:MixerView = {
+        let bundle = NSBundle(forClass: self.dynamicType)
+        let nib = UINib(nibName: "MixerView", bundle: bundle)
+        let someView = nib.instantiateWithOwner(self, options: nil)[0] as! MixerView
+        someView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        someView.alpha = 0.0
+        return someView
+        }()
     
     var displayingValue: Bool = false
     
@@ -35,10 +76,132 @@ class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKey
         
         createControlPanel()
         createKeyboard()
-        createParameterSubviews()
+        
+        view.addSubview(adsrView)
+        view.addSubview(scannedView)
+        view.addSubview(lfoView)
+        view.addSubview(filterView)
+        view.addSubview(effectView)
+        view.addSubview(mixerView)
+        
+        let views = ["adsrView":adsrView, "scannedView":scannedView, "lfoView":lfoView, "filterView":filterView, "effectView":effectView, "mixerView":mixerView]
+        let metrics = ["paramViewOffset":55.0, "paramViewHeight":125.0]
+        
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[adsrView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[scannedView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[lfoView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[filterView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[effectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|[mixerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[adsrView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[scannedView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[lfoView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[filterView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[effectView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-paramViewOffset-[mixerView(paramViewHeight)]|", options: NSLayoutFormatOptions(0), metrics: metrics, views: views))
+
+        
+        adsrView.attackSlider.minimumValue = 0.2
+        adsrView.attackSlider.maximumValue = 6.0
+        adsrView.attackSlider.value = 1.0
+        adsrView.decaySlider.minimumValue = 0.01
+        adsrView.decaySlider.maximumValue = 1.0
+        adsrView.decaySlider.value = 0.1
+        adsrView.sustainSlider.minimumValue = 0.0
+        adsrView.sustainSlider.maximumValue = 1.0
+        adsrView.sustainSlider.value = 0.7
+        adsrView.releaseSlider.minimumValue = 0.02
+        adsrView.releaseSlider.maximumValue = 6.0
+        adsrView.releaseSlider.value = 1.0
+        
+        scannedView.initialSlider.minimumValue = 50
+        scannedView.initialSlider.maximumValue = 59
+        scannedView.initialSlider.value = 50
+        scannedView.tuningSlider.minimumValue = 101
+        scannedView.tuningSlider.maximumValue = 114
+        scannedView.tuningSlider.value = 101
+        scannedView.detuneSlider.minimumValue = 1.0
+        scannedView.detuneSlider.maximumValue = 1.2
+        scannedView.detuneSlider.value = 1.0
+        
+        lfoView.freqSlider.minimumValue = 0
+        lfoView.freqSlider.maximumValue = 20
+        lfoView.freqSlider.value = 0
+        lfoView.ampSlider.minimumValue = 0
+        lfoView.ampSlider.maximumValue = 20
+        lfoView.ampSlider.value = 0
+        lfoView.typeSlider.minimumValue = 0
+        lfoView.typeSlider.maximumValue = 5
+        lfoView.typeSlider.value = 0
+        
+        filterView.cutoffSlider.minimumValue = 200
+        filterView.cutoffSlider.maximumValue = 22000
+        filterView.cutoffSlider.value = 13932
+        filterView.resoSlider.minimumValue = 0.1
+        filterView.resoSlider.maximumValue = 0.9
+        filterView.resoSlider.value = 0.45
+        filterView.typeSlider.minimumValue = 0
+        filterView.typeSlider.maximumValue = 5
+        filterView.typeSlider.value = 0
+        
+        effectView.rateSlider.minimumValue = 0.1
+        effectView.rateSlider.maximumValue = 12.0
+        effectView.rateSlider.value = 5.0
+        effectView.depthSlider.minimumValue = 100
+        effectView.depthSlider.maximumValue = 2000
+        effectView.depthSlider.value = 800.0
+        effectView.typeSlider.minimumValue = 0
+        effectView.typeSlider.maximumValue = 5
+        effectView.typeSlider.value = 0
+        effectView.mixSlider.minimumValue = 0.0
+        effectView.mixSlider.maximumValue = 1.0
+        effectView.mixSlider.value = 0.0
+        
+        mixerView.masterSlider.minimumValue = 0.0
+        mixerView.masterSlider.maximumValue = 1.0
+        mixerView.masterSlider.value = 0.7
+        
+        sendSliderValueNotifications(adsrView.attackSlider)
+        sendSliderValueNotifications(adsrView.decaySlider)
+        sendSliderValueNotifications(adsrView.sustainSlider)
+        sendSliderValueNotifications(adsrView.releaseSlider)
+        sendSliderValueNotifications(scannedView.initialSlider)
+        sendSliderValueNotifications(scannedView.tuningSlider)
+        sendSliderValueNotifications(scannedView.detuneSlider)
+        sendSliderValueNotifications(lfoView.freqSlider)
+        sendSliderValueNotifications(lfoView.ampSlider)
+        sendSliderValueNotifications(lfoView.typeSlider)
+        sendSliderValueNotifications(filterView.cutoffSlider)
+        sendSliderValueNotifications(filterView.resoSlider)
+        sendSliderValueNotifications(filterView.typeSlider)
+        sendSliderValueNotifications(effectView.rateSlider)
+        sendSliderValueNotifications(effectView.depthSlider)
+        sendSliderValueNotifications(effectView.typeSlider)
+        sendSliderValueNotifications(effectView.mixSlider)
+        sendSliderValueNotifications(mixerView.masterSlider)
+        
+        let csoundUI = CsoundUI(csoundObj: csound)
+        csoundUI.addSlider(adsrView.attackSlider, forChannelName: "attack", continuous: true)
+        csoundUI.addSlider(adsrView.decaySlider, forChannelName: "decay", continuous: true)
+        csoundUI.addSlider(adsrView.sustainSlider, forChannelName: "sustain", continuous: true)
+        csoundUI.addSlider(adsrView.releaseSlider, forChannelName: "release", continuous: true)
+        csoundUI.addSlider(scannedView.initialSlider, forChannelName: "initial", continuous: false)
+        csoundUI.addSlider(scannedView.tuningSlider, forChannelName: "tuning", continuous: false)
+        csoundUI.addSlider(scannedView.detuneSlider, forChannelName: "detMult", continuous: true)
+        csoundUI.addSlider(lfoView.freqSlider, forChannelName: "cpslfo", continuous: false)
+        csoundUI.addSlider(lfoView.ampSlider, forChannelName: "amplfo", continuous: false)
+        csoundUI.addSlider(lfoView.typeSlider, forChannelName: "lfotype", continuous: false)
+        csoundUI.addSlider(filterView.cutoffSlider, forChannelName: "cutoff", continuous: true)
+        csoundUI.addSlider(filterView.resoSlider, forChannelName: "res", continuous: true)
+        csoundUI.addSlider(filterView.typeSlider, forChannelName: "filters", continuous: false)
+        csoundUI.addSlider(effectView.rateSlider, forChannelName: "fxrate", continuous: true)
+        csoundUI.addSlider(effectView.depthSlider, forChannelName: "fxdepth", continuous: true)
+        csoundUI.addSlider(effectView.mixSlider, forChannelName: "fxmix", continuous: true)
+        csoundUI.addSlider(effectView.typeSlider, forChannelName: "effects", continuous: false)
+        csoundUI.addSlider(mixerView.masterSlider, forChannelName: "master", continuous: true)
         
         csound.addListener(self)
-        csound.play(NSBundle.mainBundle().pathForResource("midiTest", ofType: "csd"))
+        csound.play(NSBundle.mainBundle().pathForResource("scanned", ofType: "csd"))
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -58,18 +221,18 @@ class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKey
         // Create Settings button
         let settingsButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         settingsButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        settingsButton.setTitle("Settings", forState: UIControlState.Normal)
+        settingsButton.setTitle("Key Settings", forState: UIControlState.Normal)
         settingsButton.addTarget(self, action: "presentLeftPanel", forControlEvents: UIControlEvents.TouchUpInside)
         
         // Create About button
         let aboutButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         aboutButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        aboutButton.setTitle("About", forState: UIControlState.Normal)
+        aboutButton.setTitle("Presets", forState: UIControlState.Normal)
         aboutButton.addTarget(self, action: "presentRightPanel", forControlEvents: UIControlEvents.TouchUpInside)
         aboutButton.titleLabel!.textAlignment = NSTextAlignment.Right // for placement on right-hand side
         
         // Create segmentedControl
-        let segControl = UISegmentedControl(items: ["osc1", "osc2", "ADSR"])
+        let segControl = UISegmentedControl(items: ["ADSR", "SCANNED", "LFO", "FILTER", "EFFECT", "MIX"])
         segControl.setTranslatesAutoresizingMaskIntoConstraints(false)
         segControl.addTarget(self, action: "changeParameterSet:", forControlEvents: UIControlEvents.ValueChanged)
         segControl.selectedSegmentIndex = 0
@@ -101,298 +264,18 @@ class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKey
 
     }
     
-    func createParameterSubviews() {
-        
-        // CREATE SUBVIEWS
-        
-        // osc 1 subviews
-        osc1DriveSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc1DriveSlider.minimumValue = 0.0
-        osc1DriveSlider.maximumValue = 1.0
-        osc1DriveSlider.value = 0.0
-        osc1DriveSlider.enabled = false
-        sendSliderValueNotifications(osc1DriveSlider)
-        osc1Subviews.append(osc1DriveSlider)
-        
-        let osc1DriveLabel = UILabel()
-        osc1DriveLabel.text = "Mod"
-        osc1DriveLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc1Subviews.append(osc1DriveLabel)
-        
-        let osc1SpreadSlider = UISlider()
-        osc1SpreadSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc1SpreadSlider.minimumValue = 0.0
-        osc1SpreadSlider.maximumValue = 1.0
-        osc1SpreadSlider.value = 0.5
-        sendSliderValueNotifications(osc1SpreadSlider)
-        osc1Subviews.append(osc1SpreadSlider)
-        
-        
-        let osc1SpreadLabel = UILabel()
-        osc1SpreadLabel.text = "Volume"
-        osc1SpreadLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc1Subviews.append(osc1SpreadLabel)
-        
-        let osc1DetuneSlider = UISlider()
-        osc1DetuneSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc1DetuneSlider.minimumValue = -0.5
-        osc1DetuneSlider.maximumValue = 0.5
-        osc1DetuneSlider.value = 0.0
-        sendSliderValueNotifications(osc1DetuneSlider)
-        osc1Subviews.append(osc1DetuneSlider)
-
-        let osc1DetuneLabel = UILabel()
-        osc1DetuneLabel.text = "Detune"
-        osc1DetuneLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc1Subviews.append(osc1DetuneLabel)
-        
-        osc1SemiSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc1SemiSlider.minimumValue = -12.0;
-        osc1SemiSlider.maximumValue = 12.0;
-        osc1SemiSlider.value = 0.0
-        sendSliderValueNotifications(osc1SemiSlider)
-        osc1Subviews.append(osc1SemiSlider)
-        
-        let osc1SemiLabel = UILabel()
-        osc1SemiLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc1SemiLabel.text = "Semi"
-        osc1Subviews.append(osc1SemiLabel)
-
-        waveform1Control.setTranslatesAutoresizingMaskIntoConstraints(false)
-        waveform1Control.selectedSegmentIndex = 0
-        waveform1Control.addTarget(self, action: "waveformChanged:", forControlEvents: UIControlEvents.ValueChanged)
-        osc1Subviews.append(waveform1Control)
-        
-        // osc 2 subviews
-        osc2DriveSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc2DriveSlider.minimumValue = 0.0
-        osc2DriveSlider.maximumValue = 1.0
-        osc2DriveSlider.value = 0.0
-        osc2DriveSlider.alpha = 0.0
-        osc2DriveSlider.enabled = false
-        sendSliderValueNotifications(osc2DriveSlider)
-        osc2Subviews.append(osc2DriveSlider)
-        
-        let osc2DriveLabel = UILabel()
-        osc2DriveLabel.text = "Mod"
-        osc2DriveLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc2DriveLabel.alpha = 0.0
-        osc2Subviews.append(osc2DriveLabel)
-        
-        let osc2SpreadSlider = UISlider()
-        osc2SpreadSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc2SpreadSlider.minimumValue = 0.0
-        osc2SpreadSlider.maximumValue = 1.0
-        osc2SpreadSlider.value = 0.0
-        osc2SpreadSlider.alpha = 0.0
-        sendSliderValueNotifications(osc2SpreadSlider)
-        osc2Subviews.append(osc2SpreadSlider)
-        
-        let osc2SpreadLabel = UILabel()
-        osc2SpreadLabel.text = "Volume"
-        osc2SpreadLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc2SpreadLabel.alpha = 0.0
-        osc2Subviews.append(osc2SpreadLabel)
-        
-        let osc2DetuneSlider = UISlider()
-        osc2DetuneSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc2DetuneSlider.minimumValue = -0.5
-        osc2DetuneSlider.maximumValue = 0.5
-        osc2DetuneSlider.value = 0.0
-        osc2DetuneSlider.alpha = 0.0
-        sendSliderValueNotifications(osc2DetuneSlider)
-        osc2Subviews.append(osc2DetuneSlider)
-        
-        let osc2DetuneLabel = UILabel()
-        osc2DetuneLabel.text = "Detune"
-        osc2DetuneLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc2DetuneLabel.alpha = 0.0
-        osc2Subviews.append(osc2DetuneLabel)
-        
-        osc2SemiSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc2SemiSlider.minimumValue = -12.0;
-        osc2SemiSlider.maximumValue = 12.0;
-        osc2SemiSlider.value = 0.0
-        osc2SemiSlider.alpha = 0.0
-        sendSliderValueNotifications(osc2SemiSlider)
-        osc2Subviews.append(osc2SemiSlider)
-        
-        let osc2SemiLabel = UILabel()
-        osc2SemiLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        osc2SemiLabel.text = "Semi"
-        osc2SemiLabel.alpha = 0.0
-        osc2Subviews.append(osc2SemiLabel)
-        
-        waveform2Control.setTranslatesAutoresizingMaskIntoConstraints(false)
-        waveform2Control.selectedSegmentIndex = 0
-        waveform2Control.alpha = 0.0
-        waveform2Control.addTarget(self, action: "waveformChanged:", forControlEvents: UIControlEvents.ValueChanged)
-        osc2Subviews.append(waveform2Control)
-        
-        // adsr subviews
-        let attackSlider = UISlider()
-        attackSlider.minimumValue = 0.02
-        attackSlider.maximumValue = 6.00
-        attackSlider.value = 0.02
-        attackSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        attackSlider.alpha = 0.0
-        sendSliderValueNotifications(attackSlider)
-        adsrSubviews.append(attackSlider)
-        
-        let decaySlider = UISlider()
-        decaySlider.minimumValue = 0.02
-        decaySlider.maximumValue = 3.00
-        decaySlider.value = 0.2
-        decaySlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        decaySlider.alpha = 0.0
-        sendSliderValueNotifications(decaySlider)
-        adsrSubviews.append(decaySlider)
-
-        let sustainSlider = UISlider()
-        sustainSlider.minimumValue = 0.00
-        sustainSlider.maximumValue = 1.0
-        sustainSlider.value = 0.7
-        sustainSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        sustainSlider.alpha = 0.0
-        sendSliderValueNotifications(sustainSlider)
-        adsrSubviews.append(sustainSlider)
-
-        let releaseSlider = UISlider()
-        releaseSlider.minimumValue = 0.02
-        releaseSlider.maximumValue = 10.0
-        releaseSlider.value = 1.0
-        releaseSlider.setTranslatesAutoresizingMaskIntoConstraints(false)
-        releaseSlider.alpha = 0.0
-        sendSliderValueNotifications(releaseSlider)
-        adsrSubviews.append(releaseSlider)
-
-        let attackLabel = UILabel()
-        attackLabel.alpha = 0.0
-        attackLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        attackLabel.text = "Attack"
-        adsrSubviews.append(attackLabel)
-        
-        let decayLabel = UILabel()
-        decayLabel.alpha = 0.0
-        decayLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        decayLabel.text = "Decay"
-        adsrSubviews.append(decayLabel)
-        
-        let sustainLabel = UILabel()
-        sustainLabel.alpha = 0.0
-        sustainLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        sustainLabel.text = "Sustain"
-        adsrSubviews.append(sustainLabel)
-        
-        let releaseLabel = UILabel()
-        releaseLabel.alpha = 0.0
-        releaseLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        releaseLabel.text = "Release"
-        adsrSubviews.append(releaseLabel)
-        
-        // ADD SUBVIEWS
-        // osc1 subviews
-        view.addSubview(osc1DriveSlider)
-        view.addSubview(osc1DriveLabel)
-        view.addSubview(osc1SpreadSlider)
-        view.addSubview(osc1SpreadLabel)
-        view.addSubview(osc1DetuneSlider)
-        view.addSubview(osc1DetuneLabel)
-        view.addSubview(osc1SemiSlider)
-        view.addSubview(osc1SemiLabel)
-        view.addSubview(waveform1Control)
-        // osc2 subviews
-        view.addSubview(osc2DriveSlider)
-        view.addSubview(osc2DriveLabel)
-        view.addSubview(osc2SpreadSlider)
-        view.addSubview(osc2SpreadLabel)
-        view.addSubview(osc2DetuneSlider)
-        view.addSubview(osc2DetuneLabel)
-        view.addSubview(osc2SemiSlider)
-        view.addSubview(osc2SemiLabel)
-        view.addSubview(waveform2Control)
-        // adsr subviews
-        view.addSubview(attackSlider)
-        view.addSubview(decaySlider)
-        view.addSubview(sustainSlider)
-        view.addSubview(releaseSlider)
-        view.addSubview(attackLabel)
-        view.addSubview(decayLabel)
-        view.addSubview(sustainLabel)
-        view.addSubview(releaseLabel)
-        
-        // SET AUTOLAYOUT CONSTRAINTS
-        // osc1 layout
-        let osc1Views  = ["osc1DriveSlider":osc1DriveSlider, "osc1DriveLabel":osc1DriveLabel, "osc1SpreadSlider":osc1SpreadSlider, "osc1SpreadLabel":osc1SpreadLabel, "osc1DetuneSlider":osc1DetuneSlider, "osc1DetuneLabel":osc1DetuneLabel, "waveform1Control":waveform1Control, "osc1SemiSlider":osc1SemiSlider, "osc1SemiLabel":osc1SemiLabel]
-        
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-[osc1DriveLabel]-[osc1DriveSlider(>=200)]-[osc1DetuneLabel]-[osc1DetuneSlider(osc1DriveSlider)]-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: osc1Views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-[osc1SpreadLabel]-[osc1SpreadSlider(>=200)]-[osc1SemiLabel]-[osc1SemiSlider(osc1SpreadSlider)]-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: osc1Views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-65-[osc1DriveSlider]-[osc1SpreadSlider]-[waveform1Control]", options: NSLayoutFormatOptions(0), metrics: nil, views: osc1Views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-[waveform1Control]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: osc1Views))
-        
-        // osc2 layout
-        let osc2Views = ["osc2DriveSlider":osc2DriveSlider, "osc2DriveLabel":osc2DriveLabel, "osc2SpreadSlider":osc2SpreadSlider, "osc2SpreadLabel":osc2SpreadLabel, "osc2DetuneSlider":osc2DetuneSlider, "osc2DetuneLabel":osc2DetuneLabel, "waveform2Control":waveform2Control, "osc2SemiSlider":osc2SemiSlider, "osc2SemiLabel":osc2SemiLabel]
-        
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-[osc2DriveLabel]-[osc2DriveSlider(>=200)]-[osc2DetuneLabel]-[osc2DetuneSlider(osc2DriveSlider)]-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: osc2Views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-[osc2SpreadLabel]-[osc2SpreadSlider(>=200)]-[osc2SemiLabel]-[osc2SemiSlider(osc2SpreadSlider)]-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: osc2Views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-65-[osc2DriveSlider]-[osc2SpreadSlider]-[waveform2Control]", options: NSLayoutFormatOptions(0), metrics: nil, views: osc2Views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-[waveform2Control]-|", options: NSLayoutFormatOptions(0), metrics: nil, views: osc2Views))
-        
-        // adsr layout
-        let adsrViews = ["attackSlider":attackSlider, "decaySlider":decaySlider, "sustainSlider":sustainSlider, "releaseSlider":releaseSlider, "attackLabel":attackLabel, "decayLabel":decayLabel, "sustainLabel":sustainLabel, "releaseLabel":releaseLabel]
-        
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-[attackLabel]-[attackSlider(>=200)]-[sustainLabel]-[sustainSlider(attackSlider)]-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: adsrViews))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-[decayLabel]-[decaySlider(>=200)]-[releaseLabel]-[releaseSlider(decaySlider)]-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: adsrViews))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-65-[attackSlider]-25-[decaySlider]", options: NSLayoutFormatOptions(0), metrics: nil, views: adsrViews))
-        
-        // ATTACH CONTROLS TO CSOUND
-        let csoundUI = CsoundUI(csoundObj: csound)
-        
-        csoundUI.addSlider(osc1DriveSlider, forChannelName: "drive1", continuous: true)
-        csoundUI.addSlider(osc1SpreadSlider, forChannelName: "volume1", continuous: true)
-        csoundUI.addSlider(osc1DetuneSlider, forChannelName: "detune1", continuous: true)
-        csoundUI.addSlider(osc1SemiSlider, forChannelName: "semi1", continuous: false)
-        csoundUI.addSlider(osc2DriveSlider, forChannelName: "drive2", continuous: true)
-        csoundUI.addSlider(osc2SpreadSlider, forChannelName: "volume2", continuous: true)
-        csoundUI.addSlider(osc2DetuneSlider, forChannelName: "detune2", continuous: true)
-        csoundUI.addSlider(osc2SemiSlider, forChannelName: "semi2", continuous: false)
-        
-        csoundUI.addSlider(attackSlider, forChannelName: "attack", continuous: true)
-        csoundUI.addSlider(decaySlider, forChannelName: "decay", continuous: true)
-        csoundUI.addSlider(sustainSlider, forChannelName: "sustain", continuous: true)
-        csoundUI.addSlider(releaseSlider, forChannelName: "release", continuous: true)
-        
-    }
-    
     func sendSliderValueNotifications(slider: UISlider) {
         slider.addTarget(self, action: "displayValue:", forControlEvents: UIControlEvents.ValueChanged)
         slider.addTarget(self, action: "stopDisplayingValue", forControlEvents: UIControlEvents.TouchUpOutside | UIControlEvents.TouchUpInside)
     }
     
     func displayValue(slider: UISlider) {
-        if slider === osc1SemiSlider || slider === osc2SemiSlider {
-            var intValue = Int(slider.value)
-            ValueIndicator.sharedInstance.indicatorLabel.text = String(format: "%d", arguments: [intValue])
-        } else {
-            ValueIndicator.sharedInstance.indicatorLabel.text = String(format: "%.3f", arguments: [slider.value])
-        }
         ValueIndicator.sharedInstance.fadeInLabel()
+        ValueIndicator.sharedInstance.indicatorLabel.text = String(format: "%.1f", arguments: [slider.value])
     }
     
     func stopDisplayingValue() {
         ValueIndicator.sharedInstance.fadeOutLabel()
-    }
-    
-    func waveformChanged(sender:AnyObject) {
-        var message = ""
-        if sender === waveform1Control {
-            message = "i1 0 -1 0 \(waveform1Control.selectedSegmentIndex)"
-            osc1DriveSlider.enabled = waveform1Control.selectedSegmentIndex == 0 ? false : true
-        } else if sender === waveform2Control {
-            message = "i1 0 -1 1 \(waveform2Control.selectedSegmentIndex)"
-            osc2DriveSlider.enabled = waveform2Control.selectedSegmentIndex == 0 ? false : true
-        }
-        csound.sendScore(message)
     }
     
     func presentLeftPanel() {
@@ -404,44 +287,65 @@ class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKey
     }
     
     func changeParameterSet(sender: AnyObject) {
-        let control = sender as! UISegmentedControl
-        if control.selectedSegmentIndex == 0 {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                for someView in self.osc1Subviews {
-                    someView.alpha = 1.0
-                }
-                for someView in self.osc2Subviews {
-                    someView.alpha = 0.0
-                }
-                for someView in self.adsrSubviews {
-                    someView.alpha = 0.0
-                }
-            })
-        } else if control.selectedSegmentIndex == 1 {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                for someView in self.osc1Subviews {
-                    someView.alpha = 0.0
-                }
-                for someView in self.osc2Subviews {
-                    someView.alpha = 1.0
-                }
-                for someView in self.adsrSubviews {
-                    someView.alpha = 0.0
-                }
-            })
-        } else if control.selectedSegmentIndex == 2 {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                for someView in self.osc1Subviews {
-                    someView.alpha = 0.0
-                }
-                for someView in self.osc2Subviews {
-                    someView.alpha = 0.0
-                }
-                for someView in self.adsrSubviews {
-                    someView.alpha = 1.0
-                }
-            })
+        if let control = sender as? UISegmentedControl {
+            if control.selectedSegmentIndex == 0 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 1.0
+                    self.scannedView.alpha = 0.0
+                    self.lfoView.alpha = 0.0
+                    self.filterView.alpha = 0.0
+                    self.effectView.alpha = 0.0
+                    self.mixerView.alpha = 0.0
+                })
+            } else if control.selectedSegmentIndex == 1 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 0.0
+                    self.scannedView.alpha = 1.0
+                    self.lfoView.alpha = 0.0
+                    self.filterView.alpha = 0.0
+                    self.effectView.alpha = 0.0
+                    self.mixerView.alpha = 0.0
+                })
+            } else if control.selectedSegmentIndex == 2 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 0.0
+                    self.scannedView.alpha = 0.0
+                    self.lfoView.alpha = 1.0
+                    self.filterView.alpha = 0.0
+                    self.effectView.alpha = 0.0
+                    self.mixerView.alpha = 0.0
+                })
+            } else if control.selectedSegmentIndex == 3 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 0.0
+                    self.scannedView.alpha = 0.0
+                    self.lfoView.alpha = 0.0
+                    self.filterView.alpha = 1.0
+                    self.effectView.alpha = 0.0
+                    self.mixerView.alpha = 0.0
+                })
+            } else if control.selectedSegmentIndex == 4 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 0.0
+                    self.scannedView.alpha = 0.0
+                    self.lfoView.alpha = 0.0
+                    self.filterView.alpha = 0.0
+                    self.effectView.alpha = 1.0
+                    self.mixerView.alpha = 0.0
+                })
+
+            } else if control.selectedSegmentIndex == 5 {
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.adsrView.alpha = 0.0
+                    self.scannedView.alpha = 0.0
+                    self.lfoView.alpha = 0.0
+                    self.filterView.alpha = 0.0
+                    self.effectView.alpha = 0.0
+                    self.mixerView.alpha = 1.0
+                })
+            }
         }
+        
     }
     
     // MARK: CsoundObjListener
@@ -458,12 +362,12 @@ class InstrumentViewController: UIViewController, CsoundObjListener, DiatonicKey
     func keyPressed(keyboard: DiatonicKeyboardView, params: [String:AnyObject]) {
         let noteNum: Int = params["NoteNum"] as! Int
         let noteAmp: Float = params["NoteAmp"] as! Float
-        let scoreMessage = String(format: "i2.%003d 0 -2 %d %f", arguments: [noteNum, noteNum, noteAmp])
+        let scoreMessage = String(format: "i1.%003d 0 -2 %d %f", arguments: [noteNum, noteNum, noteAmp])
         csound.sendScore(scoreMessage)
     }
     
     func keyReleased(keyboard: DiatonicKeyboardView, params: [String:AnyObject]) {
-        let scoreMessage = String(format: "i-2.%003d 0 0", arguments: [params["NoteNum"] as! Int])
+        let scoreMessage = String(format: "i-1.%003d 0 0", arguments: [params["NoteNum"] as! Int])
         csound.sendScore(scoreMessage)
     }
 }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LFOView" customModule="DiatonicTouch" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="LFO Freq" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bpX-Ei-Luq">
+                    <rect key="frame" x="8" y="8" width="72" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="LFO Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZQR-2E-WpT">
+                    <rect key="frame" x="8" y="92" width="73" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Sho-Gp-z3Y">
+                    <rect key="frame" x="104" y="8" width="118" height="31"/>
+                </slider>
+                <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sNn-CF-qXQ">
+                    <rect key="frame" x="104" y="36" width="118" height="31"/>
+                </slider>
+                <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="TvM-t6-xzc">
+                    <rect key="frame" x="104" y="83" width="118" height="31"/>
+                </slider>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="LFO Amp" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bYK-jN-OqT">
+                    <rect key="frame" x="8" y="45" width="73" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Sho-Gp-z3Y" firstAttribute="leading" secondItem="bpX-Ei-Luq" secondAttribute="trailing" constant="8" symbolic="YES" id="2Dh-jP-l24"/>
+                <constraint firstItem="ZQR-2E-WpT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="5G5-Lb-rI6"/>
+                <constraint firstAttribute="trailing" secondItem="Sho-Gp-z3Y" secondAttribute="trailing" constant="20" symbolic="YES" id="6Cf-Ju-CD9"/>
+                <constraint firstItem="sNn-CF-qXQ" firstAttribute="leading" secondItem="bYK-jN-OqT" secondAttribute="trailing" constant="8" symbolic="YES" id="7Pj-e9-c1G"/>
+                <constraint firstItem="bpX-Ei-Luq" firstAttribute="centerY" secondItem="Sho-Gp-z3Y" secondAttribute="centerY" id="82v-r4-SbX"/>
+                <constraint firstItem="bYK-jN-OqT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="BIC-DC-GqH"/>
+                <constraint firstItem="ZQR-2E-WpT" firstAttribute="centerY" secondItem="TvM-t6-xzc" secondAttribute="centerY" id="Eqn-c8-cnv"/>
+                <constraint firstItem="TvM-t6-xzc" firstAttribute="leading" secondItem="ZQR-2E-WpT" secondAttribute="trailing" constant="8" symbolic="YES" id="Pcr-PG-lTA"/>
+                <constraint firstItem="bYK-jN-OqT" firstAttribute="top" secondItem="bpX-Ei-Luq" secondAttribute="bottom" constant="16" id="YgW-5p-qhL"/>
+                <constraint firstAttribute="trailing" secondItem="TvM-t6-xzc" secondAttribute="trailing" constant="20" symbolic="YES" id="gbD-bQ-TUR"/>
+                <constraint firstItem="bYK-jN-OqT" firstAttribute="centerY" secondItem="sNn-CF-qXQ" secondAttribute="centerY" id="hBG-J2-2bF"/>
+                <constraint firstItem="sNn-CF-qXQ" firstAttribute="leading" secondItem="bYK-jN-OqT" secondAttribute="trailing" constant="8" symbolic="YES" id="lpZ-Fx-6Av"/>
+                <constraint firstItem="bpX-Ei-Luq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="oQd-Q6-LX8"/>
+                <constraint firstItem="bpX-Ei-Luq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" symbolic="YES" id="oj9-NO-gSy"/>
+                <constraint firstItem="ZQR-2E-WpT" firstAttribute="top" secondItem="bYK-jN-OqT" secondAttribute="bottom" constant="18" id="tTR-n9-Mh2"/>
+                <constraint firstAttribute="trailing" secondItem="sNn-CF-qXQ" secondAttribute="trailing" constant="20" symbolic="YES" id="zbi-MO-p5D"/>
+            </constraints>
+            <connections>
+                <outlet property="ampSlider" destination="sNn-CF-qXQ" id="X1a-ek-FfC"/>
+                <outlet property="freqSlider" destination="Sho-Gp-z3Y" id="N0R-Fv-ios"/>
+                <outlet property="typeSlider" destination="TvM-t6-xzc" id="nKK-yH-H7K"/>
+            </connections>
+        </view>
+    </objects>
+</document>

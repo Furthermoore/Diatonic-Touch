@@ -20,17 +20,17 @@ class MainViewController: UIViewController {
     // 1. Create our center VC (will be the instrument itself)
     let centerVC = InstrumentViewController()
     
-    // 2. User may or may not require left and right panels..
-    lazy var leftPanelVC:LeftPanelViewController = {
-        var leftPanel = LeftPanelViewController()
+    // 2. User may or may not require either left or right panels..
+    lazy var leftPanelVC: SettingsPanelViewController = {
+        var leftPanel = SettingsPanelViewController()
         leftPanel.diatonicKeyboard = self.centerVC.diatonicKeyboard
         self.view.addSubview(leftPanel.view)
         self.addChildViewController(leftPanel)
         leftPanel.didMoveToParentViewController(self)
         return leftPanel
     }()
-    lazy var rightPanelVC:RightPanelViewController = {
-        var rightPanel = RightPanelViewController()
+    lazy var rightPanelVC: PresetNavigationViewController = {
+        var rightPanel = PresetNavigationViewController(rootViewController: PresetListTableViewController())
         self.view.addSubview(rightPanel.view)
         self.addChildViewController(rightPanel)
         rightPanel.didMoveToParentViewController(self)
