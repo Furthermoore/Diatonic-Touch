@@ -47,7 +47,6 @@ class PresetListTableViewController: UITableViewController {
         
         let fetchRequest = NSFetchRequest(entityName: "Preset")
         var error: NSError?
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [Preset]
         if let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [Preset] {
             presets = fetchedResults
         } else {

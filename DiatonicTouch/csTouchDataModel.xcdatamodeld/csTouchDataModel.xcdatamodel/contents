@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Instrument" syncable="YES">
+        <attribute name="csdPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="presets" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Preset" syncable="YES"/>
+    </entity>
+    <entity name="Preset" syncable="YES">
+        <relationship name="instrument" maxCount="1" deletionRule="Nullify" destinationEntity="Instrument" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Instrument" positionX="-74" positionY="-39" width="128" height="88"/>
+        <element name="Preset" positionX="205" positionY="-18" width="128" height="58"/>
+    </elements>
+</model>
